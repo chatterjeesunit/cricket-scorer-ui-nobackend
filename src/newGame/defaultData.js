@@ -2,6 +2,7 @@ import PlayerStatus from './gameConstants';
 
 const initialState = {
   maxOvers: 20,
+  currentOverScore: [],
   team1: {
     name: 'India',
     totalRun: 0,
