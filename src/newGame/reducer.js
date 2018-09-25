@@ -1,4 +1,4 @@
-import { initialState } from './defaultData';
+import initialState from './defaultData';
 
 const reducer = (state = initialState) => (state);
 
