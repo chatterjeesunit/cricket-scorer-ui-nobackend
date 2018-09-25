@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import '../home/Home.css';
+import '../css/style.css';
 
 const totalOversPassed = (totalBalls) => {
   let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
@@ -40,8 +40,17 @@ const ScoreBoard = props =>
     <Row>
       <Col md={{ size: 6, offset: 3 }} sm="12">
         <Row>
-          <Col>
-            <span style={{ fontSize: '14px' }}>{isBowlingTeamAlreadyPlayed(props.bowlingTeam)}</span>
+          <Col className="scoreBoard">
+            {isBowlingTeamAlreadyPlayed(props.bowlingTeam)}
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+    <Row>
+      <Col md={{ size: 6, offset: 3 }} sm="12">
+        <Row>
+          <Col className="scoreBoard">
+            This Over
           </Col>
         </Row>
       </Col>

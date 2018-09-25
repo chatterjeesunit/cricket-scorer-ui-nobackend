@@ -49,7 +49,6 @@ describe('newBatsmanSelection/reducer', () => {
     expect(isSelectedPlayerAStriker).toEqual(true);
   });
 
-
   it('player in bowling team should not be updated as Striker', () => {
     const selectedPlayer = '3';
     selectNewBatsmanAction.batsmanId = selectedPlayer;
@@ -72,18 +71,42 @@ describe('record score/reducer', () => {
   });
 
   it('test total score updated for the batting team', () => {
-    const localState = Object.assign({}, initialState);
+    const localState = { ...initialState };
     expect(reducer(localState, recordScore(4)).team1.totalRun).toEqual(4);
   });
 
   it('test total score not updated for the bowling team', () => {
-    const localState = Object.assign({}, initialState);
+    const localState = { ...initialState };
     expect(reducer(localState, recordScore(4)).team2.totalRun).toEqual(0);
   });
 
   it('test the current score of the batsman', () => {
-    const localState = Object.assign({}, initialState);
-    localState.team1.players[0].runsScored = 0;
+    const localState = { ...initialState };
     expect(reducer(localState, recordScore(2)).team1.players[0].runsScored).toEqual(2);
+  });
+
+  it('test the current ball faced by current player', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(2)).team1.players[0].ballsFaced).toEqual(1);
+  });
+
+  it('test the current player 4s updated', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(4)).team1.players[0].numberOfFours).toEqual(1);
+  });
+
+  it('test the current player 6s updated', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(6)).team1.players[0].numberOfSixes).toEqual(1);
+  });
+
+  it('current bowler run given', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(4)).team2.players[0].runsGiven).toEqual(4);
+  });
+
+  it('Current bowler ball bowled', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(2)).team2.players[0].ballsBowled).toEqual(1);
   });
 });
