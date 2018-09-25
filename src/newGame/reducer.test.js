@@ -1,7 +1,7 @@
 import reducer from './reducer';
-import { initialState } from './defaultData';
 import PlayerStatus from './gameConstants';
 import { selectNewBatsmanAction } from "../home/actions"
+import initialState from './defaultData';
 
 describe('gameInformation/reducer', () => {
   it('should return initial state of 11 players in each team', () => {
