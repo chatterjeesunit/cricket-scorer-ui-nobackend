@@ -1,13 +1,15 @@
-export function updatePlayerStatus(players, playerId, newStatus) {
-    let updatedPlayers = [];
-    players.forEach(player => {
-        let newPlayer = { ...player };
-        
-        if(newPlayer.id === playerId) {
-            newPlayer.status = newStatus;
-        }
-        updatedPlayers.push(newPlayer);
-    });
+function updatePlayerStatus(players, playerId, newStatus) {
+  const updatedPlayers = [];
+  players.forEach((player) => {
+    const newPlayer = { ...player };
 
-    return updatedPlayers;
-};
+    if (newPlayer.id === playerId) {
+      newPlayer.status = newStatus;
+    }
+    updatedPlayers.push(newPlayer);
+  });
+
+  return updatedPlayers;
+}
+
+export default updatePlayerStatus;

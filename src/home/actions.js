@@ -4,7 +4,7 @@ import { Routes } from '../routes/routes';
 export const CREATE_GAME = 'CREATE_GAME';
 
 export const selectNewBatsmanAction = {
-  type: 'SELECT_NEW_BATSMAN'
+  type: 'SELECT_NEW_BATSMAN',
 };
 
 export const createGameAction = () => (dispatch) => {
