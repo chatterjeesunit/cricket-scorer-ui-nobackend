@@ -9,7 +9,7 @@ pipelines:
     group: team3
     materials:
       ui:
-        git: "provide git url here"
+        git: "git@github.com:sushantsagar29/cricket-scorer-ui-nobackend.git"
     stages:
       - test:
           jobs:
