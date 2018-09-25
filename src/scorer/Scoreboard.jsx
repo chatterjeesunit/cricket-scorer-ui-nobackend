@@ -1,10 +1,16 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
+import '../home/Home.css';
 
 const totalOversPassed = (totalBalls) => {
-  const totalovers = `${parseInt((totalBalls / 6), 10)}.${(totalBalls % 6)}`;
-  return totalovers;
+  let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
+  const ballsPlayedForCurrentOver = totalBalls % 6;
+
+  if (ballsPlayedForCurrentOver !== 0) {
+    totalOvers = `${totalOvers}.${ballsPlayedForCurrentOver}`;
+  }
+  return totalOvers;
 };
 
 const isBowlingTeamAlreadyPlayed = (bowlingTeam) => {
@@ -21,11 +27,11 @@ const ScoreBoard = props =>
       <Col md={{ size: 6, offset: 3 }}>
         <Row>
           <Col md="5" xs="4">
-            <b>{props.battingTeam.name}</b>
+            <b className="currentBattingTeam">{props.battingTeam.name}</b>
           </Col>
           <Col sm="1" xs="2" />
           <Col style={{ textAlign: 'right' }}>
-            <b>{`${props.battingTeam.totalRun }/${props.battingTeam.totalWickets }  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>
+            <b className="currentBattingTeam">{`${props.battingTeam.totalRun}/${props.battingTeam.totalWickets}  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>
           </Col>
         </Row>
       </Col>
@@ -35,12 +41,12 @@ const ScoreBoard = props =>
       <Col md={{ size: 6, offset: 3 }} sm="12">
         <Row>
           <Col>
-            {isBowlingTeamAlreadyPlayed(props.bowlingTeam)}
+            <span style={{ fontSize: '14px' }}>{isBowlingTeamAlreadyPlayed(props.bowlingTeam)}</span>
           </Col>
         </Row>
       </Col>
     </Row>
-   </Container>
+  </Container>
   );
 
 

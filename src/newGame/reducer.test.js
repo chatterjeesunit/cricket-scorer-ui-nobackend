@@ -1,7 +1,7 @@
 import reducer from './reducer';
 import PlayerStatus from './gameConstants';
-import { selectNewBatsmanAction } from '../home/actions';
 import initialState from './defaultData';
+import { CREATE_GAME, recordScore, selectNewBatsmanAction } from '../home/actions';
 
 describe('gameInformation/reducer', () => {
   it('should return initial state of 11 players in each team', () => {
@@ -18,7 +18,6 @@ describe('gameInformation/reducer', () => {
     expect(modifiedState.team2.name).toEqual('Afghanistan');
   });
 });
-
 
 describe('newBatsmanSelection/reducer', () => {
   it('selected player in batting team should become the Striker', () => {
@@ -64,5 +63,27 @@ describe('newBatsmanSelection/reducer', () => {
         && player.status === PlayerStatus.STRIKER).length === 0;
 
     expect(isSelectedPlayerNotAStriker).toEqual(true);
+  });
+});
+
+describe('record score/reducer', () => {
+  it('should return initial state of 11 players in each team', () => {
+    expect(reducer(undefined, { CREATE_GAME })).toEqual(initialState);
+  });
+
+  it('test total score updated for the batting team', () => {
+    const localState = Object.assign({}, initialState);
+    expect(reducer(localState, recordScore(4)).team1.totalRun).toEqual(4);
+  });
+
+  it('test total score not updated for the bowling team', () => {
+    const localState = Object.assign({}, initialState);
+    expect(reducer(localState, recordScore(4)).team2.totalRun).toEqual(0);
+  });
+
+  it('test the current score of the batsman', () => {
+    const localState = Object.assign({}, initialState);
+    localState.team1.players[0].runsScored = 0;
+    expect(reducer(localState, recordScore(2)).team1.players[0].runsScored).toEqual(2);
   });
 });
