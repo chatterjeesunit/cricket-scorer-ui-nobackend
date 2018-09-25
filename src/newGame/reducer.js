@@ -1,4 +1,4 @@
-import { initialState } from './defaultData';
+import initialState from './defaultData';
 import { selectNewBatsmanAction } from '../home/actions';
 import PlayerStatus from './gameConstants';
 import updatePlayerStatus from '../utils/gameHelper';
