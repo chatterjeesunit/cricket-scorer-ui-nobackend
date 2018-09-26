@@ -1,5 +1,6 @@
 .button{
-    margin-left: 5px;
+    margin-right: 1rem;
+    margin-bottom: 5px;
 }
 
 .currentBattingTeam{
@@ -14,4 +15,4 @@
     width: 50%;
     height: 100%;
     background-color: #e5e6e6;
-    }
+}
