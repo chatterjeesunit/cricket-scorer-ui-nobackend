@@ -6,13 +6,29 @@ html, body {
     height: 100%
 }
 
-.currentBattingTeam{
-    font-size: 20px
-}
-
 .center {
     margin: auto;
     width: 50%;
     height: 100%;
     background-color: #e5e6e6;
-    }
+}
+
+.button{
+    margin-right: 1rem;
+    margin-bottom: 5px;
+}
+    
+.currentBattingTeam{
+    font-size: 2rem;
+}
+
+.scoreBoard{
+    font-size: 1rem;
+}
+    
+.center {
+    margin: auto;
+    width: 50%;
+    height: 100%;
+    background-color: #e5e6e6;
+}

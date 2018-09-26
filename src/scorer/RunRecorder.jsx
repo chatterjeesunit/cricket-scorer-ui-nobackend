@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'reactstrap';
-import './../css/style.css';
 import { recordScore } from './../home/actions';
 import NewBatsman from '../newBatsman/NewBatsman';
 
@@ -12,8 +11,7 @@ class RunRecorder extends Component {
     this.state = {
       run: 0,
       isCurrentBatsmanOut: false,
-      isDisabled: true,
-      runSelected: -1,
+      runSelected: 0,
     };
   }
 
@@ -22,8 +20,7 @@ class RunRecorder extends Component {
     this.setState({
       run: 0,
       isCurrentBatsmanOut: false,
-      isDisabled: true,
-      runSelected: -1,
+      runSelected: 0,
     });
   }
 
@@ -31,7 +28,6 @@ class RunRecorder extends Component {
     this.setState({
       run: runsScored,
       isCurrentBatsmanOut: isBatsmanOut,
-      isDisabled: false,
       runSelected: runsScored,
     });
   }
@@ -60,7 +56,7 @@ class RunRecorder extends Component {
         <br />
         <div className="row">
           <div className="col-md-8 offset-2">
-            <Button className="button" outline size="lg" color="info" disabled={this.state.isDisabled} onClick={() => this.onSubmit()}>Next Ball</Button>
+            <Button className="button" size="lg" color="info"  onClick={() => this.onSubmit()}>Next Ball</Button>
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
