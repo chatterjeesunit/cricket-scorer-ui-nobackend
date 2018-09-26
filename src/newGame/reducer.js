@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
           totalBalls: state.team1.totalBalls + (isTeam1Batting ? 1 : 0),
           players: updatePlayer(
             isTeam1Batting, state.team1.players,
-            action.currentRun, (isTeam1Batting && action.isCurrentBatsmanOut),
+            action.currentRun, action.isCurrentBatsmanOut,
           ),
         },
         team2: {
@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
           totalBalls: state.team2.totalBalls + (isTeam1Batting ? 0 : 1),
           players: updatePlayer(
             (!isTeam1Batting), state.team2.players,
-            action.currentRun, (!isTeam1Batting && action.isCurrentBatsmanOut),
+            action.currentRun, action.isCurrentBatsmanOut,
           ),
         },
       };

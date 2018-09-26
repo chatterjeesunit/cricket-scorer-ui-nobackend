@@ -169,4 +169,16 @@ describe('Batsman Out/reducer', () => {
       player.id === currentBatsman.id)[0].status)
       .toEqual(PlayerStatus.OUT);
   });
+
+  it('should update the wickets for bowler in bowling team', () => {
+    const localState = { ...initialState };
+
+    const currentBowler = localState.team2.players.filter(player =>
+      player.status === PlayerStatus.BOWLING)[0];
+
+    const actualValueReturned = reducer(localState, recordScore(0, true));
+
+    expect(actualValueReturned.team2.players.filter(player =>
+      player.id === currentBowler.id)[0].wicketsTaken).toEqual(currentBowler.wicketsTaken + 1);
+  });
 });

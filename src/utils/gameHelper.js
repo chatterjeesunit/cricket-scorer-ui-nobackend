@@ -34,13 +34,17 @@ function updateBattingPlayerScore(players, currentRun) {
   return updatedPlayers;
 }
 
-function updateBowlingPlayerScore(players, currentRun) {
+function updateBowlingPlayerScore(players, currentRun, isBatsmanOut) {
   const updatedPlayers = [];
   players.forEach((player) => {
     const newPlayer = { ...player };
     if (newPlayer.status === PlayerStatus.BOWLING) {
       newPlayer.runsGiven += currentRun;
       newPlayer.ballsBowled += 1;
+
+      if (isBatsmanOut) {
+        newPlayer.wicketsTaken += 1;
+      }
     }
     updatedPlayers.push(newPlayer);
   });
@@ -59,7 +63,7 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
 
   return isBattingTeam ?
     updateBattingPlayerScore(players, currentRun) :
-    updateBowlingPlayerScore(players, currentRun);
+    updateBowlingPlayerScore(players, currentRun, (!isBattingTeam && isBatsmanOut));
 }
 
 
