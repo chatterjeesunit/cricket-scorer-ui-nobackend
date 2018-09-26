@@ -49,7 +49,6 @@ const ScoreBoard = props => (
           <Col md="5" xs="4">
             <b className="currentBattingTeam">{props.battingTeam.name}</b>
           </Col>
-          <Col sm="1" xs="2" />
           <Col style={{ textAlign: 'right' }}>
             <b className="currentBattingTeam">{`${props.battingTeam.totalRun}/${props.battingTeam.totalWickets}  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>
           </Col>
@@ -70,10 +69,10 @@ const ScoreBoard = props => (
     <Row>
       <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col className="scoreBoard">
+          <Col md={{ size: 3 }} sm={{ size: 6 }} className="scoreBoard">
             This Over
           </Col>
-          <Col style={{ textAlign: 'right' }}>
+          <Col md={{ size: 4 }} sm={{ size: 6 }}>
             {displayCurrentOverScore(props.currentOverScore)}
           </Col>
         </Row>
@@ -82,8 +81,11 @@ const ScoreBoard = props => (
     <Row>
       <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col className="scoreBoard">
-            Bowler Name: {displayCurrentBowlerName(props.bowlingTeam)}
+          <Col md={{ size: 3 }} sm={{ size: 6 }} className="scoreBoard">
+            Bowler Name:
+          </Col>
+          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
+            {displayCurrentBowlerName(props.bowlingTeam)}
           </Col>
         </Row>
       </Col>
