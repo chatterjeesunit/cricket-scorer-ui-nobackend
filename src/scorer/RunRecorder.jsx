@@ -50,7 +50,15 @@ class RunRecorder extends Component {
 
         <div className="row">
           <div className="col-md-8 offset-2">
-            <Button className="button" outline size="lg" color="info" onClick={() => this.save(0, true)}>Out</Button>
+            <Button
+              className="button"
+              outline
+              size="lg"
+              color="info"
+              active={this.state.isCurrentBatsmanOut}
+              onClick={() => this.save(this.state.run, !this.state.isCurrentBatsmanOut)}
+            >Out
+            </Button>
           </div>
         </div>
         <br />

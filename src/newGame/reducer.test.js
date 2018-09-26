@@ -186,4 +186,11 @@ describe('Batsman Out/reducer', () => {
     expect(actualValueReturned.team2.players.filter(player =>
       player.id === currentBowler.id)[0].wicketsTaken).toEqual(currentBowler.wicketsTaken + 1);
   });
+
+  it('should update the wicket in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(0, true));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('W');
+  });
 });

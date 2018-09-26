@@ -9,6 +9,7 @@ const reducer = (state = initialState, action) => {
       const isTeam1Batting = state.team1.isBatting;
       const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
         && action.isCurrentBatsmanOut;
+      const currentBallUpdateStr = action.isCurrentBatsmanOut ? 'W' : action.currentRun;
       return {
         ...state,
         appState: {
@@ -39,7 +40,7 @@ const reducer = (state = initialState, action) => {
         },
         currentOverScore:
         getCurrentOverScore(
-          state.currentOverScore, action.currentRun,
+          state.currentOverScore, currentBallUpdateStr,
           isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
         ),
       };
