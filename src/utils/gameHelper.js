@@ -1,22 +1,17 @@
 import PlayerStatus from '../newGame/gameConstants';
 
 function updatePlayerStatus(players, playerId, newStatus) {
-  const updatedPlayers = [];
-  players.forEach((player) => {
+  return [...players].map((player) => {
     const newPlayer = { ...player };
-
     if (newPlayer.id === playerId) {
       newPlayer.status = newStatus;
     }
-    updatedPlayers.push(newPlayer);
+    return newPlayer;
   });
-
-  return updatedPlayers;
 }
 
 function updateBattingPlayerScore(players, currentRun) {
-  const updatedPlayers = [];
-  players.forEach((player) => {
+  return [...players].map((player) => {
     const newPlayer = { ...player };
     if (newPlayer.status === PlayerStatus.STRIKER) {
       newPlayer.runsScored += currentRun;
@@ -28,17 +23,14 @@ function updateBattingPlayerScore(players, currentRun) {
         newPlayer.numberOfSixes += 1;
       }
     }
-    updatedPlayers.push(newPlayer);
+    return newPlayer;
   });
-
-  return updatedPlayers;
 }
 
 function updateBowlingPlayerScore(players, currentRun, isBatsmanOut) {
-  const updatedPlayers = [];
-  players.forEach((player) => {
+  return [...players].map((player) => {
     const newPlayer = { ...player };
-    if (newPlayer.status === PlayerStatus.BOWLING) {
+    if (player.status === PlayerStatus.BOWLING) {
       newPlayer.runsGiven += currentRun;
       newPlayer.ballsBowled += 1;
 
@@ -46,10 +38,8 @@ function updateBowlingPlayerScore(players, currentRun, isBatsmanOut) {
         newPlayer.wicketsTaken += 1;
       }
     }
-    updatedPlayers.push(newPlayer);
+    return newPlayer;
   });
-
-  return updatedPlayers;
 }
 
 function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
@@ -67,14 +57,11 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
 }
 
 function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {
-  const overArray = [];
-
-  if ((battingTeamTotalBalls) % 6 !== 0) {
-    for (let i = 0; i < currentOverArray.length; i += 1) {
-      overArray.push(currentOverArray[i]);
-    }
+  if ((battingTeamTotalBalls + 1) % 6 === 0) {
+    return [];
   }
-  return overArray.concat([currentRun]);
+
+  return [...currentOverArray].concat([currentRun]);
 }
 
 export { updatePlayerStatus, updatePlayer, getCurrentOverScore };
