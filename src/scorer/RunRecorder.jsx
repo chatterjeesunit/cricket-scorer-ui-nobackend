@@ -7,9 +7,31 @@ import { recordScore } from './../home/actions';
 import NewBatsman from '../newBatsman/NewBatsman';
 
 class RunRecorder extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      run: 0,
+      isCurrentBatsmanOut: false,
+      isDisabled: true,
+    };
+  }
+
+  onSubmit() {
+    this.props.recordScore(this.state);
+    this.setState({
+      run: 0,
+      isCurrentBatsmanOut: false,
+      isDisabled: true,
+    });
+  }
+
   save(runsScored, isBatsmanOut) {
-    this.run = runsScored;
-    this.isCurrentBatsmanOut = isBatsmanOut;
+    this.setState({
+      run: runsScored,
+      isCurrentBatsmanOut: isBatsmanOut,
+      isDisabled: false,
+    });
   }
 
   render() {
@@ -47,7 +69,8 @@ class RunRecorder extends Component {
               className="btn btn-outline-info button btn-lg"
               id="submit"
               type="button"
-              onClick={() => this.props.recordScore(this.run, this.isCurrentBatsmanOut)}
+              disabled={this.state.isDisabled}
+              onClick={() => this.onSubmit()}
             >
               Next Ball
             </button>
@@ -66,7 +89,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchAsProps = dispatch => ({
-  recordScore: (run, isOut) => dispatch(recordScore(run, isOut)),
+  recordScore: localState =>
+    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut)),
 });
 
 export default connect(mapStateToProps, mapDispatchAsProps)(RunRecorder);
