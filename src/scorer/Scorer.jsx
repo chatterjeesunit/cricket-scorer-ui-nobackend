@@ -6,6 +6,7 @@ const Scorer = () => (
   <div className="center">
     <ScoreBoard />
     <RunRecorder />
+
   </div>
 );
 

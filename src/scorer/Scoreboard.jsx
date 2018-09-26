@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Badge } from 'reactstrap';
 import { connect } from 'react-redux';
-import PlayerStatus from '../newGame/gameConstants';
+import '../home/Home.css';
+import {PlayerStatus} from '../newGame/gameConstants';
 
 const totalOversPassed = (totalBalls) => {
   let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
@@ -36,8 +37,20 @@ const displayCurrentBowlerName = (bowlingTeam) => {
       currentBowlerName = bowlingTeam.players[idx].name;
     }
   }
-
   return currentBowlerName;
+};
+
+const displayStriker = (battingTeam) => {
+  const currentBatsman = { striker: '', nonStriker: '' };
+  for (let idx = 0; idx < battingTeam.players.length; idx += 1) {
+    if (battingTeam.players[idx].status === PlayerStatus.STRIKER) {
+      currentBatsman.striker = battingTeam.players[idx].name;
+    }
+    if (battingTeam.players[idx].status === PlayerStatus.NON_STRIKER) {
+      currentBatsman.nonStriker = battingTeam.players[idx].name;
+    }
+  }
+  return currentBatsman;
 };
 
 const ScoreBoard = props => (
@@ -69,7 +82,7 @@ const ScoreBoard = props => (
     <Row>
       <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col md={{ size: 3 }} sm={{ size: 6 }} className="scoreBoard">
+          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
             This Over
           </Col>
           <Col md={{ size: 4 }} sm={{ size: 6 }}>
@@ -81,7 +94,7 @@ const ScoreBoard = props => (
     <Row>
       <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col md={{ size: 3 }} sm={{ size: 6 }} className="scoreBoard">
+          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
             Bowler Name:
           </Col>
           <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
@@ -96,7 +109,16 @@ const ScoreBoard = props => (
       <Col md={{ size: 8, offset: 2 }} sm="12">
         This ball
       </Col>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
+        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+          <Badge color="light">{displayStriker(props.battingTeam).nonStriker}</Badge>
+        </Col>
+        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+          <Badge color="dark">{displayStriker(props.battingTeam).striker}</Badge>
+        </Col>
+      </Col>
     </Row>
+    <br />
     <br />
   </Container>
 );

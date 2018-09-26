@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { selectNewBatsmanAction } from '../home/actions';
-import PlayerStatus from '../newGame/gameConstants';
+import {PlayerStatus} from '../newGame/gameConstants';
 
 class NewBatsman extends Component {
   constructor(props) {

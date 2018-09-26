@@ -1,4 +1,4 @@
-import PlayerStatus from './gameConstants';
+import { PlayerStatus } from './gameConstants';
 
 const initialState = {
   appState: {

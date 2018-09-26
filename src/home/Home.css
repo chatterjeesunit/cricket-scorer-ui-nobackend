@@ -37,3 +37,22 @@ html, body {
     background: transparent;
     color: #17a2b8;
 }
+
+.badge-wrapper{
+    font-size: 2rem;
+    display: inline;
+    padding: 0;
+}
+
+.badge-light {
+    border-radius: 0;
+    border: 2px solid #17a2b8;
+    background-color: #e5e6e6;
+}
+
+.badge-dark {
+    border-radius: 0;
+    border: 2px solid #17a2b8;
+    color: #fff;
+    background-color: #17a2b8;
+}
