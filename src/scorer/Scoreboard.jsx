@@ -41,11 +41,11 @@ const displayCurrentBowlerName = (bowlingTeam) => {
   return currentBowlerName;
 };
 
-const ScoreBoard = props =>
-  (<Container>
+const ScoreBoard = props => (
+  <Container>
     <br />
     <Row>
-      <Col md={{ size: 6, offset: 3 }}>
+      <Col md={{ size: 8, offset: 2 }}>
         <Row>
           <Col md="5" xs="4">
             <b className="currentBattingTeam">{props.battingTeam.name}</b>
@@ -59,7 +59,7 @@ const ScoreBoard = props =>
     </Row>
 
     <Row>
-      <Col md={{ size: 6, offset: 3 }} sm="12">
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
           <Col className="scoreBoard">
             {isBowlingTeamAlreadyPlayed(props.bowlingTeam)}
@@ -69,7 +69,7 @@ const ScoreBoard = props =>
     </Row>
     <br />
     <Row>
-      <Col md={{ size: 6, offset: 3 }} sm="12">
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
           <Col className="scoreBoard">
             This Over
@@ -81,7 +81,7 @@ const ScoreBoard = props =>
       </Col>
     </Row>
     <Row>
-      <Col md={{ size: 6, offset: 3 }} sm="12">
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
           <Col className="scoreBoard">
             Bowler Name: {displayCurrentBowlerName(props.bowlingTeam)}
@@ -91,7 +91,7 @@ const ScoreBoard = props =>
     </Row>
     <br />
   </Container>
-  );
+);
 
 
 const mapStateToProps = (state) => {
