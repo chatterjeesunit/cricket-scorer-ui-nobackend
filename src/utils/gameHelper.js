@@ -66,14 +66,14 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
 }
 
 function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {
-  let overArray = [];
+  const overArray = [];
 
   if ((battingTeamTotalBalls) % 6 !== 0) {
-    overArray = currentOverArray;
+    for (let i = 0; i < currentOverArray.length; i += 1) {
+      overArray.push(currentOverArray[i]);
+    }
   }
-  const runsForCurrentOver = overArray.concat([currentRun]);
-
-  return runsForCurrentOver;
+  return overArray.concat([currentRun]);
 }
 
 export { updatePlayerStatus, updatePlayer, getCurrentOverScore };
