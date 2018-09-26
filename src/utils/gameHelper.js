@@ -76,6 +76,4 @@ function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls
   return runsForCurrentOver;
 }
 
-export {
-  updatePlayerStatus, updatePlayer, getCurrentOverScore,
-};
+export { updatePlayerStatus, updatePlayer, getCurrentOverScore };
