@@ -204,7 +204,7 @@ describe('Batsman Out/reducer', () => {
   it('should update the batsman score even if he took run and got out', () => {
     const localState = { ...initialState };
     const actualValueReturned = reducer(localState, recordScore(2, true));
-    
+
     const currentBatsman = localState.team1.players.filter(player =>
       player.status === PlayerStatus.STRIKER)[0];
 

@@ -37,13 +37,13 @@ class RunRecorder extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-8 offset-2">
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 0} onClick={() => this.save(0, false)}>0</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 1} onClick={() => this.save(1, false)}>1</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 2} onClick={() => this.save(2, false)}>2</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 3} onClick={() => this.save(3, false)}>3</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 4} onClick={() => this.save(4, false)}>4</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 5} onClick={() => this.save(5, false)}>5</Button>
-            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 6} onClick={() => this.save(6, false)}>6</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 0} onClick={() => this.save(0, this.state.isCurrentBatsmanOut)}>0</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 1} onClick={() => this.save(1, this.state.isCurrentBatsmanOut)}>1</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 2} onClick={() => this.save(2, this.state.isCurrentBatsmanOut)}>2</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 3} onClick={() => this.save(3, this.state.isCurrentBatsmanOut)}>3</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 4} onClick={() => this.save(4, this.state.isCurrentBatsmanOut)}>4</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 5} onClick={() => this.save(5, this.state.isCurrentBatsmanOut)}>5</Button>
+            <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 6} onClick={() => this.save(6, this.state.isCurrentBatsmanOut)}>6</Button>
           </div>
         </div>
         <br />
