@@ -46,7 +46,7 @@ class NewBatsman extends Component {
             <Button
               color="primary"
               disabled={this.state.selectedBatsman === undefined}
-              onClick={this.props.onSelectBatsman}
+              onClick={() => this.props.onSelectBatsman(this.state)}
             >
               Submit
             </Button>
@@ -71,8 +71,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onSelectBatsman: () => {
-    selectNewBatsmanAction.batsmanId = this.selectedBatsman;
+  onSelectBatsman: (state) => {
+    selectNewBatsmanAction.batsmanId = state.selectedBatsman;
     dispatch(selectNewBatsmanAction);
   },
 });

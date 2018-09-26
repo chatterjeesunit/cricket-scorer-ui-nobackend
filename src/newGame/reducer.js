@@ -17,6 +17,8 @@ const reducer = (state = initialState, action) => {
         },
         team1: {
           ...state.team1,
+          totalWickets: isTeam1Batting && action.isCurrentBatsmanOut ?
+            state.team1.totalWickets + 1 : state.team1.totalWickets,
           totalRun: state.team1.totalRun + (isTeam1Batting ? action.currentRun : 0),
           totalBalls: state.team1.totalBalls + (isTeam1Batting ? 1 : 0),
           players: isTeam1Batting ?
@@ -25,6 +27,8 @@ const reducer = (state = initialState, action) => {
         },
         team2: {
           ...state.team2,
+          totalWickets: !isTeam1Batting && action.isCurrentBatsmanOut ?
+            state.team2.totalWickets + 1 : state.team2.totalWickets,
           totalRun: state.team2.totalRun + (isTeam1Batting ? 0 : action.currentRun),
           totalBalls: state.team2.totalBalls + (isTeam1Batting ? 0 : 1),
           players: isTeam1Batting ?

@@ -133,3 +133,35 @@ describe('record score/reducer', () => {
     expect(reducer(localState, recordScore(2)).team2.players[0].ballsBowled).toEqual(1);
   });
 });
+
+describe('Batsman Out/reducer', () => {
+  it('should update the wicket for team1 only when team1 is batting and Batsman is out', () => {
+    const localState = { ...initialState };
+
+    expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
+      .toEqual(initialState.team1.totalWickets + 1);
+
+    expect(reducer(localState, recordScore(0, true)).team2.totalWickets)
+      .toEqual(initialState.team2.totalWickets);
+  });
+
+  it('should update the wicket for team2 only when team2 is batting and Batsman is out', () => {
+    const localState = {
+      ...initialState,
+      team1: {
+        ...initialState.team1,
+        isBatting: false,
+      },
+      team2: {
+        ...initialState.team2,
+        isBatting: true,
+      },
+    };
+
+    expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
+      .toEqual(initialState.team1.totalWickets);
+
+    expect(reducer(localState, recordScore(0, true)).team2.totalWickets)
+      .toEqual(initialState.team2.totalWickets + 1);
+  });
+});
