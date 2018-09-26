@@ -1,5 +1,5 @@
 import reducer from './reducer';
-import PlayerStatus from './gameConstants';
+import { PlayerStatus, ExtraTypes } from './gameConstants';
 import initialState from './defaultData';
 import { CREATE_GAME, recordScore, selectNewBatsmanAction } from '../home/actions';
 
@@ -210,5 +210,130 @@ describe('Batsman Out/reducer', () => {
 
     expect(actualValueReturned.team1.players.filter(player =>
       player.id === currentBatsman.id)[0].runsScored).toEqual(currentBatsman.runsScored + 2);
+  });
+
+  it('Current ball is wide with no run', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalRun).toEqual(1);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalBalls).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].runsScored).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].ballsFaced).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].numberOfSixes).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].numberOfFours).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team2.players[0].ballsBowled).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team2.players[0].runsGiven).toEqual(1);
+  });
+
+  it('Current ball is wide with totalRun as 2', () => {
+    const localState = { ...initialState };
+    localState.team1.totalRun = 2;
+    localState.team1.totalBalls = 2;
+    localState.team1.players[0].runsScored = 2;
+    localState.team1.players[0].ballsFaced = 2;
+    localState.team1.players[0].numberOfFours = 1;
+
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalRun).toEqual(3);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalBalls).toEqual(2);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.players[0].runsScored)
+      .toEqual(2);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].ballsFaced)
+      .toEqual(2);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team1.players[0].numberOfSixes).toEqual(0);
+    expect(reducer(localState, recordScore(4, false, ExtraTypes.WIDE))
+      .team1.players[0].numberOfFours).toEqual(1);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team2.players[0].ballsBowled).toEqual(0);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
+      .team2.players[0].runsGiven).toEqual(1);
+  });
+
+  it('Current ball is No Ball with totalRun as 2', () => {
+    const localState = { ...initialState };
+    localState.team1.totalRun = 2;
+    localState.team1.totalBalls = 2;
+    localState.team1.players[0].runsScored = 2;
+    localState.team1.players[0].ballsFaced = 2;
+    localState.team1.players[0].numberOfFours = 1;
+    localState.team2.players[0].ballsBowled = 2;
+    localState.team2.players[0].runsGiven = 2;
+
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
+      .team1.totalRun).toEqual(4);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
+      .team1.totalBalls).toEqual(2);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
+      .team1.players[0].runsScored).toEqual(4);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
+      .team1.players[0].ballsFaced).toEqual(2);
+    expect(reducer(localState, recordScore(6, false, ExtraTypes.NO_BALL))
+      .team1.players[0].numberOfSixes).toEqual(1);
+    expect(reducer(localState, recordScore(4, false, ExtraTypes.NO_BALL))
+      .team1.players[0].numberOfFours).toEqual(2);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
+      .team2.players[0].ballsBowled).toEqual(2);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.NO_BALL))
+      .team2.players[0].runsGiven).toEqual(3);
+  });
+
+  it('Current ball is LB with totalRun as 2', () => {
+    const localState = { ...initialState };
+    localState.team1.totalRun = 2;
+    localState.team1.totalBalls = 2;
+    localState.team1.players[0].runsScored = 2;
+    localState.team1.players[0].ballsFaced = 2;
+    localState.team1.players[0].numberOfFours = 1;
+    localState.team2.players[0].ballsBowled = 2;
+    localState.team2.players[0].runsGiven = 2;
+
+    expect(reducer(localState, recordScore(2, false, ExtraTypes.LB))
+      .team1.totalRun).toEqual(4);
+    expect(reducer(localState, recordScore(2, false, ExtraTypes.LB))
+      .team1.totalBalls).toEqual(3);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.LB))
+      .team1.players[0].runsScored).toEqual(2);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.LB))
+      .team1.players[0].ballsFaced).toEqual(3);
+    expect(reducer(localState, recordScore(6, false, ExtraTypes.LB))
+      .team1.players[0].numberOfSixes).toEqual(0);
+    expect(reducer(localState, recordScore(4, false, ExtraTypes.LB))
+      .team1.players[0].numberOfFours).toEqual(1);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.LB))
+      .team2.players[0].ballsBowled).toEqual(3);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.LB))
+      .team2.players[0].runsGiven).toEqual(2);
+  });
+
+  it('Current ball is Bies with totalRun as 2', () => {
+    const localState = { ...initialState };
+    localState.team1.totalRun = 2;
+    localState.team1.totalBalls = 2;
+    localState.team1.players[0].runsScored = 2;
+    localState.team1.players[0].ballsFaced = 2;
+    localState.team1.players[0].numberOfFours = 1;
+    localState.team2.players[0].ballsBowled = 2;
+    localState.team2.players[0].runsGiven = 2;
+
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.BIES)).team1.totalRun).toEqual(2);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.BIES)).team1.totalBalls).toEqual(3);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.BIES))
+      .team1.players[0].runsScored).toEqual(2);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.BIES))
+      .team1.players[0].ballsFaced).toEqual(3);
+    expect(reducer(localState, recordScore(6, false, ExtraTypes.BIES))
+      .team1.players[0].numberOfSixes).toEqual(0);
+    expect(reducer(localState, recordScore(4, false, ExtraTypes.BIES))
+      .team1.players[0].numberOfFours).toEqual(1);
+    expect(reducer(localState, recordScore(1, false, ExtraTypes.BIES))
+      .team2.players[0].ballsBowled).toEqual(3);
+    expect(reducer(localState, recordScore(0, false, ExtraTypes.BIES))
+      .team2.players[0].runsGiven).toEqual(2);
   });
 });

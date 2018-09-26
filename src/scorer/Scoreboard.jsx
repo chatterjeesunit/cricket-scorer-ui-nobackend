@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Row, Col, Badge } from 'reactstrap';
 import { connect } from 'react-redux';
-import PlayerStatus from '../newGame/gameConstants';
+import '../home/Home.css';
+import {PlayerStatus} from '../newGame/gameConstants';
 
 const totalOversPassed = (totalBalls) => {
   let totalOvers = `${parseInt((totalBalls / 6), 10)}`;

@@ -5,4 +5,12 @@ const PlayerStatus = {
   YET_TO_PLAY: 'YET_TO_PLAY',
   BOWLING: 'BOWLING',
 };
-export default PlayerStatus;
+
+const ExtraTypes = {
+  WIDE: 'WIDE',
+  NO_BALL: 'NO_BALL',
+  BIES: 'BIES',
+  LB: 'LB',
+};
+
+export { PlayerStatus, ExtraTypes };

@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { Button, Modal } from 'reactstrap';
 import { recordScore } from './../home/actions';
 import NewBatsman from '../newPlayer/NewBatsman';
+import { ExtraTypes } from '../newGame/gameConstants';
 
 class RunRecorder extends Component {
   constructor(props) {
     super(props);
     this.state = {
       run: 0,
+      extras: undefined,
       isCurrentBatsmanOut: false,
       runSelected: 0,
     };
@@ -19,8 +21,15 @@ class RunRecorder extends Component {
     this.props.recordScore(this.state);
     this.setState({
       run: 0,
+      extras: undefined,
       isCurrentBatsmanOut: false,
       runSelected: 0,
+    });
+  }
+
+  saveExtra(currenSelectdExtra) {
+    this.setState({
+      extras : currenSelectdExtra
     });
   }
 
@@ -46,6 +55,17 @@ class RunRecorder extends Component {
             <Button className="button" size="lg" outline color="info" active={this.state.runSelected === 6} onClick={() => this.save(6, this.state.isCurrentBatsmanOut)}>6</Button>
           </div>
         </div>
+        <br />
+        <div className="row">
+          <div className="col-md-6 offset-3">
+           Extras
+            <button className="btn btn-outline-info button" id="W" type="button" onClick={() => this.saveExtra(ExtraTypes.WIDE)}>W</button>
+            <button className="btn btn-outline-info button" id="N" type="button" onClick={() => this.saveExtra(ExtraTypes.NO_BALL)}>N</button>
+            <button className="btn btn-outline-info button" id="L" type="button" onClick={() => this.saveExtra(ExtraTypes.BIES)}>L</button>
+            <button className="btn btn-outline-info button" id="B" type="button" onClick={() => this.saveExtra(ExtraTypes.LB)}>Lb</button>
+          </div>
+        </div>
+
         <br />
 
         <div className="row">
@@ -81,7 +101,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchAsProps = dispatch => ({
   recordScore: localState =>
-    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut)),
+    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut,localState.extras)),
 });
 
 export default connect(mapStateToProps, mapDispatchAsProps)(RunRecorder);
