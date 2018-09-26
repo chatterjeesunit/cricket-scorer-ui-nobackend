@@ -128,6 +128,11 @@ describe('record score/reducer', () => {
     const localState = { ...initialState };
     expect(reducer(localState, recordScore(2)).team2.players[0].ballsBowled).toEqual(1);
   });
+
+  it('Current over score of first ball', () => {
+    const localState = { ...initialState };
+    expect(reducer(localState, recordScore(2)).currentOverScore[0]).toEqual(2);
+  });
 });
 
 describe('Batsman Out/reducer', () => {
