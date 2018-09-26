@@ -135,7 +135,7 @@ describe('record score/reducer', () => {
 });
 
 describe('Batsman Out/reducer', () => {
-  it('should update the wicket for team1 only when team1 is batting and Batsman is out', () => {
+  it('should update the wicket for team1 only when team1 is batting', () => {
     const localState = { ...initialState };
 
     expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
@@ -145,23 +145,32 @@ describe('Batsman Out/reducer', () => {
       .toEqual(initialState.team2.totalWickets);
   });
 
-  it('should update the wicket for team2 only when team2 is batting and Batsman is out', () => {
+  it('should update the wicket for team2 only when team2 is batting', () => {
+    const newTeam1 = { ...initialState.team2 };
+    const newTeam2 = { ...initialState.team1 };
     const localState = {
       ...initialState,
-      team1: {
-        ...initialState.team1,
-        isBatting: false,
-      },
-      team2: {
-        ...initialState.team2,
-        isBatting: true,
-      },
+      team1: newTeam1,
+      team2: newTeam2,
     };
 
     expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
-      .toEqual(initialState.team1.totalWickets);
+      .toEqual(newTeam1.totalWickets);
 
     expect(reducer(localState, recordScore(0, true)).team2.totalWickets)
-      .toEqual(initialState.team2.totalWickets + 1);
+      .toEqual(newTeam2.totalWickets + 1);
+  });
+
+  it('should change the current batsman status to OUT when team1 is batting', () => {
+    const localState = { ...initialState };
+
+    const currentBatsman = localState.team1.players.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0];
+
+    const actualValueReturned = reducer(localState, recordScore(0, true));
+
+    expect(actualValueReturned.team1.players.filter(player =>
+      player.id === currentBatsman.id)[0].status)
+      .toEqual(PlayerStatus.OUT);
   });
 });

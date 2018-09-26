@@ -48,4 +48,19 @@ function updateBowlingPlayerScore(players, currentRun) {
   return updatedPlayers;
 }
 
-export { updatePlayerStatus, updateBattingPlayerScore, updateBowlingPlayerScore };
+
+function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
+  if (isBatsmanOut && isBattingTeam) {
+    const selectedPlayerId = players.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0].id;
+
+    return updatePlayerStatus(players, selectedPlayerId, PlayerStatus.OUT);
+  }
+
+  return isBattingTeam ?
+    updateBattingPlayerScore(players, currentRun) :
+    updateBowlingPlayerScore(players, currentRun);
+}
+
+
+export { updatePlayerStatus, updatePlayer };

@@ -1,7 +1,7 @@
 import initialState from './defaultData';
 import { selectNewBatsmanAction } from '../home/actions';
 import PlayerStatus from './gameConstants';
-import { updatePlayerStatus, updateBattingPlayerScore, updateBowlingPlayerScore } from '../utils/gameHelper';
+import { updatePlayerStatus, updatePlayer } from '../utils/gameHelper';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,9 +21,10 @@ const reducer = (state = initialState, action) => {
             state.team1.totalWickets + 1 : state.team1.totalWickets,
           totalRun: state.team1.totalRun + (isTeam1Batting ? action.currentRun : 0),
           totalBalls: state.team1.totalBalls + (isTeam1Batting ? 1 : 0),
-          players: isTeam1Batting ?
-            updateBattingPlayerScore(state.team1.players, action.currentRun) :
-            updateBowlingPlayerScore(state.team1.players, action.currentRun),
+          players: updatePlayer(
+            isTeam1Batting, state.team1.players,
+            action.currentRun, (isTeam1Batting && action.isCurrentBatsmanOut),
+          ),
         },
         team2: {
           ...state.team2,
@@ -31,9 +32,10 @@ const reducer = (state = initialState, action) => {
             state.team2.totalWickets + 1 : state.team2.totalWickets,
           totalRun: state.team2.totalRun + (isTeam1Batting ? 0 : action.currentRun),
           totalBalls: state.team2.totalBalls + (isTeam1Batting ? 0 : 1),
-          players: isTeam1Batting ?
-            updateBowlingPlayerScore(state.team2.players, action.currentRun) :
-            updateBattingPlayerScore(state.team2.players, action.currentRun),
+          players: updatePlayer(
+            (!isTeam1Batting), state.team2.players,
+            action.currentRun, (!isTeam1Batting && action.isCurrentBatsmanOut),
+          ),
         },
       };
     }
