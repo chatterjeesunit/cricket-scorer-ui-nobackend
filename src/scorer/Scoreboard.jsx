@@ -91,6 +91,13 @@ const ScoreBoard = props => (
       </Col>
     </Row>
     <br />
+
+    <Row>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
+        This ball
+      </Col>
+    </Row>
+    <br />
   </Container>
 );
 
