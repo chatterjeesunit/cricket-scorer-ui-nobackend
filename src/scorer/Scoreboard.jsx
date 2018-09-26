@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import '../css/style.css';
 import PlayerStatus from '../newGame/gameConstants';
 
 const totalOversPassed = (totalBalls) => {
@@ -114,4 +113,3 @@ const mapStateToProps = (state) => {
 
 const connectedTeamInfo = connect(mapStateToProps)(ScoreBoard);
 export default connectedTeamInfo;
-
