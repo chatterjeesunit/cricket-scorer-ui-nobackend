@@ -12,9 +12,10 @@ const selectNewBatsmanAction = {
   type: 'SELECT_NEW_BATSMAN',
 };
 
-const recordScore = run => ({
+const recordScore = (run, isOut) => ({
   type: 'RECORD_SCORE',
   currentRun: run,
+  isCurrentBatsmanOut: isOut,
 });
 
 export { CREATE_GAME, createGameAction, recordScore, selectNewBatsmanAction };

@@ -7,8 +7,14 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECORD_SCORE': {
       const isTeam1Batting = state.team1.isBatting;
-      const newState = {
+      const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
+        && action.isCurrentBatsmanOut;
+      return {
         ...state,
+        appState: {
+          ...state.appState,
+          isNewBatsmanModalOpen: isNewBatsModalOpen,
+        },
         team1: {
           ...state.team1,
           totalRun: state.team1.totalRun + (isTeam1Batting ? action.currentRun : 0),
@@ -26,12 +32,15 @@ const reducer = (state = initialState, action) => {
             updateBattingPlayerScore(state.team2.players, action.currentRun),
         },
       };
-
-      return newState;
     }
+
     case selectNewBatsmanAction.type: {
       const obj = {
         ...state,
+        appState: {
+          ...state.appState,
+          isNewBatsmanModalOpen: false,
+        },
         team1: {
           ...state.team1,
           players: state.team1.isBatting ?
@@ -48,6 +57,7 @@ const reducer = (state = initialState, action) => {
 
       return obj;
     }
+
     default: {
       return state;
     }

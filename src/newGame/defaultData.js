@@ -1,6 +1,9 @@
 import PlayerStatus from './gameConstants';
 
 const initialState = {
+  appState: {
+    isNewBatsmanModalOpen: false,
+  },
   maxOvers: 20,
   currentOverScore: [],
   team1: {
@@ -157,18 +160,18 @@ const initialState = {
   },
   team2: {
     name: 'Afghanistan',
-    totalRun: 0,
-    totalWickets: 0,
-    totalBalls: 0,
+    totalRun: 350,
+    totalWickets: 7,
+    totalBalls: 120,
     isBatting: false,
     players: [
       {
         id: '1',
         name: 'Asghar Afghan',
-        runsScored: 0,
-        numberOfSixes: 0,
-        numberOfFours: 0,
-        ballsFaced: 0,
+        runsScored: 55,
+        numberOfSixes: 2,
+        numberOfFours: 3,
+        ballsFaced: 35,
         runsGiven: 0,
         wicketsTaken: 0,
         ballsBowled: 0,

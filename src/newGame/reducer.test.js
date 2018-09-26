@@ -63,6 +63,29 @@ describe('newBatsmanSelection/reducer', () => {
 
     expect(isSelectedPlayerNotAStriker).toEqual(true);
   });
+
+  it('new batsman modal should be open when batsman gets out', () => {
+    const localState = { ...initialState };
+    expect(reducer(
+      localState,
+      recordScore(undefined, true),
+    ).appState.isNewBatsmanModalOpen).toEqual(true);
+  });
+
+  it('new batsman modal should be close when new batsman is selected', () => {
+    const localState = {
+      ...initialState,
+      appState: {
+        isNewBatsmanModalOpen: true,
+      },
+    };
+
+    selectNewBatsmanAction.batsmanId = '3';
+    expect(reducer(
+      localState,
+      selectNewBatsmanAction,
+    ).appState.isNewBatsmanModalOpen).toEqual(false);
+  });
 });
 
 describe('record score/reducer', () => {
@@ -77,7 +100,7 @@ describe('record score/reducer', () => {
 
   it('test total score not updated for the bowling team', () => {
     const localState = { ...initialState };
-    expect(reducer(localState, recordScore(4)).team2.totalRun).toEqual(0);
+    expect(reducer(localState, recordScore(4)).team2.totalRun).toEqual(initialState.team2.totalRun);
   });
 
   it('test the current score of the batsman', () => {
