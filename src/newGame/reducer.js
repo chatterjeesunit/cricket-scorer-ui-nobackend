@@ -1,7 +1,7 @@
 import initialState from './defaultData';
 import { selectNewBatsmanAction } from '../home/actions';
 import PlayerStatus from './gameConstants';
-import { updatePlayerStatus, updatePlayer } from '../utils/gameHelper';
+import { updatePlayerStatus, updatePlayer, getCurrentOverScore } from '../utils/gameHelper';
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -37,6 +37,11 @@ const reducer = (state = initialState, action) => {
             action.currentRun, (!isTeam1Batting && action.isCurrentBatsmanOut),
           ),
         },
+        currentOverScore:
+        getCurrentOverScore(
+          state.currentOverScore, action.currentRun,
+          isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
+        ),
       };
     }
 

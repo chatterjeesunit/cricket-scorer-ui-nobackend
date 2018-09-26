@@ -48,7 +48,6 @@ function updateBowlingPlayerScore(players, currentRun) {
   return updatedPlayers;
 }
 
-
 function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
   if (isBatsmanOut && isBattingTeam) {
     const selectedPlayerId = players.filter(player =>
@@ -62,5 +61,17 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
     updateBowlingPlayerScore(players, currentRun);
 }
 
+function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {
+  let overArray = [];
 
-export { updatePlayerStatus, updatePlayer };
+  if ((battingTeamTotalBalls) % 6 !== 0) {
+    overArray = currentOverArray;
+  }
+  const runsForCurrentOver = overArray.concat([currentRun]);
+
+  return runsForCurrentOver;
+}
+
+export {
+  updatePlayerStatus, updatePlayer, getCurrentOverScore,
+};
