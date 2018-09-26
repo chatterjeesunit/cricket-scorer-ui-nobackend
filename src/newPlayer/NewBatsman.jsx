@@ -6,12 +6,13 @@ import { selectNewBatsmanAction } from '../home/actions';
 import PlayerStatus from '../newGame/gameConstants';
 
 class NewBatsman extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      selectedBatsman: undefined,
-    }
+      selectedBatsman: props.players.length === 0 ? undefined : props.players[0].id,
+    };
   }
+
   render() {
     return (
       <div>
@@ -22,11 +23,11 @@ class NewBatsman extends Component {
               {
                 this.props.players.map(player => (
                   <Row>
-
                     <Col>
                       <input
                         type="radio"
-                        name="1"
+                        name="playerSelection"
+                        checked={player.id === this.state.selectedBatsman}
                         value={player.id}
                         onClick={(event) => {
                           this.setState({
@@ -48,7 +49,7 @@ class NewBatsman extends Component {
               disabled={this.state.selectedBatsman === undefined}
               onClick={() => this.props.onSelectBatsman(this.state)}
             >
-              Submit
+              Select
             </Button>
           </ModalFooter>
         </form>

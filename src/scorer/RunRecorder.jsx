@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'reactstrap';
 import { recordScore } from './../home/actions';
-import NewBatsman from '../newBatsman/NewBatsman';
+import NewBatsman from '../newPlayer/NewBatsman';
 
 class RunRecorder extends Component {
   constructor(props) {
