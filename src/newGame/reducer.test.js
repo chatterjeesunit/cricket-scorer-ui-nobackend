@@ -23,18 +23,14 @@ describe('newBatsmanSelection/reducer', () => {
   it('selected player in batting team should become the Striker', () => {
     const selectedPlayer = '3';
 
+    const newTeam1 = { ...initialState.team2 };
+    const newTeam2 = { ...initialState.team1 };
     const newState = {
       ...initialState,
-      team1: {
-        ...initialState.team1,
-        isBatting: false,
-      },
-      team2: {
-        ...initialState.team2,
-        isBatting: true,
-      },
-
+      team1: newTeam1,
+      team2: newTeam2,
     };
+
     selectNewBatsmanAction.batsmanId = selectedPlayer;
     const actualValueReturned = reducer(newState, selectNewBatsmanAction);
 
