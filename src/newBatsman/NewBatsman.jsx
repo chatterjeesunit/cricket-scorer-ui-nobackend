@@ -1,48 +1,61 @@
+import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Button, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import React from 'react';
 import { selectNewBatsmanAction } from '../home/actions';
 import PlayerStatus from '../newGame/gameConstants';
 
-const NewBatsman = props => (
-  <div>
-    <form>
-      <ModalHeader>Select Next Batsman for {props.teamName}</ModalHeader>
-      <ModalBody>
-        <Container>
-          {
-            props.players.map(player => (
-              <Row>
+class NewBatsman extends Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      selectedBatsman: undefined,
+    }
+  }
+  render() {
+    return (
+      <div>
+        <form>
+          <ModalHeader>Select Next Batsman for {this.props.teamName}</ModalHeader>
+          <ModalBody>
+            <Container>
+              {
+                this.props.players.map(player => (
+                  <Row>
 
-                <Col>
-                  <input
-                    type="radio"
-                    name="1"
-                    value={player.id}
-                    onClick={(event) => {
-                    this.selectedBatsman = event.target.value;
-                  }}
-                  />
-                  <label>&nbsp;&nbsp;&nbsp;{player.name}</label>
-                </Col>
+                    <Col>
+                      <input
+                        type="radio"
+                        name="1"
+                        value={player.id}
+                        onClick={(event) => {
+                          this.setState({
+                              selectedBatsman: event.target.value
+                            });
+                        }}
+                      />
+                      <label>&nbsp;&nbsp;&nbsp;{player.name}</label>
+                    </Col>
 
-              </Row>
-            ))
-          }
-        </Container>
-      </ModalBody>
-      <ModalFooter>
-        <Button
-          color="primary"
-          onClick={props.onSelectBatsman}
-        >
-        Submit
-        </Button>
-      </ModalFooter>
-    </form>
-  </div>
-);
+                  </Row>
+                ))
+              }
+            </Container>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              disabled={this.state.selectedBatsman === undefined}
+              onClick={this.props.onSelectBatsman}
+            >
+              Submit
+            </Button>
+          </ModalFooter>
+        </form>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   const battingTeam =
