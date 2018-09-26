@@ -53,16 +53,17 @@ function updateBowlingPlayerScore(players, currentRun, isBatsmanOut) {
 }
 
 function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut) {
-  if (isBatsmanOut && isBattingTeam) {
-    const selectedPlayerId = players.filter(player =>
-      player.status === PlayerStatus.STRIKER)[0].id;
-
-    return updatePlayerStatus(players, selectedPlayerId, PlayerStatus.OUT);
-  }
-
-  return isBattingTeam ?
+  const updatedPlayersList = isBattingTeam ?
     updateBattingPlayerScore(players, currentRun) :
     updateBowlingPlayerScore(players, currentRun, (!isBattingTeam && isBatsmanOut));
+
+  if (isBatsmanOut && isBattingTeam) {
+    const selectedPlayerId = updatedPlayersList.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0].id;
+    return updatePlayerStatus(updatedPlayersList, selectedPlayerId, PlayerStatus.OUT);
+  }
+
+  return updatedPlayersList;
 }
 
 function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {

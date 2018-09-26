@@ -7,9 +7,15 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECORD_SCORE': {
       const isTeam1Batting = state.team1.isBatting;
+
       const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
         && action.isCurrentBatsmanOut;
-      const currentBallUpdateStr = action.isCurrentBatsmanOut ? 'W' : action.currentRun;
+
+      let currentBallUpdateStr = action.currentRun;
+      if (action.isCurrentBatsmanOut) {
+        currentBallUpdateStr = action.currentRun === 0 ? 'W' : (`${action.currentRun}W`);
+      }
+
       return {
         ...state,
         appState: {
