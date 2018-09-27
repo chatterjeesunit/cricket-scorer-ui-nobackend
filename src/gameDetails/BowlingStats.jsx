@@ -2,11 +2,13 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { totalOversPassed } from '../utils/gameHelper';
+import { PlayerStatus } from '../newGame/gameConstants';
 
 const createTable = bowlingTeam => (
   <tbody>
     {
-      bowlingTeam.players.filter(player => player.ballsBowled > 0)
+      bowlingTeam.players
+        .filter(player => player.ballsBowled > 0 || player.status === PlayerStatus.BOWLING)
         .map(player =>
           (
             <tr>

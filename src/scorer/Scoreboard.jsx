@@ -13,8 +13,11 @@ const isBowlingTeamAlreadyPlayed = (bowlingTeam) => {
 
 const displayCurrentOverScore = (currentOverScore) => {
   let overscoreDisplay = '';
-  for (let idx = 0; idx < currentOverScore.length; idx += 1) {
-    overscoreDisplay = `${overscoreDisplay} ${currentOverScore[idx]} `;
+  for (let idx = 0; idx < currentOverScore.length - 1; idx += 1) {
+    overscoreDisplay = `${overscoreDisplay} ${currentOverScore[idx]} |`;
+  }
+  if (currentOverScore.length - 1 >= 0) {
+    overscoreDisplay = `${overscoreDisplay} ${currentOverScore[currentOverScore.length - 1]}`;
   }
 
   return overscoreDisplay;
