@@ -82,6 +82,21 @@ describe('newBatsmanSelection/reducer', () => {
       selectNewBatsmanAction,
     ).appState.isNewBatsmanModalOpen).toEqual(false);
   });
+
+  it('new batsman modal should not open when the last batsman gets out', () => {
+    const localState = {
+      ...initialState,
+      team1: {
+        ...initialState.team1,
+        totalWickets: 9,
+      },
+    };
+
+    expect(reducer(
+      localState,
+      recordScore(undefined, true),
+    ).appState.isNewBatsmanModalOpen).toEqual(false);
+  });
 });
 
 describe('record score/reducer', () => {
