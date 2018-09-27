@@ -409,49 +409,46 @@ describe('Batsman Out/reducer', () => {
   });
 
 
-  it('should this over not be refresh when the last ball is wide', () => {
-    const localState = { ...initialState };
-    localState.team1.totalBalls = 5;
-    localState.currentOverScore = ['0', '2', '3', '4', '5'];
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
-    const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Wd'];
-    expect(actualValueReturned.currentOverScore)
-      .toEqual(expectedCurrentValue);
-  });
+  // it('should this over not be refresh when the last ball is wide', () => {
+  //   const localState = { ...initialState };
+  //   localState.team1.totalBalls = 5;
+  //   localState.currentOverScore = ['0', '2', '3', '4', '5'];
+  //   const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
+  //   const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Wd'];
+  //   expect(actualValueReturned.currentOverScore)
+  //     .toEqual(expectedCurrentValue);
+  // });
 
-  it('should this over not be refreshed when the last ball is No ball', () => {
-    const localState = { ...initialState };
-    localState.team1.totalBalls = 5;
-    localState.currentOverScore = ['0', '2', '3', '4', '5'];
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
-    const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Nb'];
-    expect(actualValueReturned.currentOverScore)
-      .toEqual(expectedCurrentValue);
-  });
+  // it('should this over not be refreshed when the last ball is No ball', () => {
+  //   const localState = { ...initialState };
+  //   localState.team1.totalBalls = 5;
+  //   localState.currentOverScore = ['0', '2', '3', '4', '5'];
+  //   const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
+  //   const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Nb'];
+  //   expect(actualValueReturned.currentOverScore)
+  //     .toEqual(expectedCurrentValue);
+  // });
 
-  it('should this over be refreshed when the last ball is valid', () => {
-    const localState = { ...initialState };
-    localState.team1.totalBalls = 5;
-    localState.currentOverScore = ['0', '2', '3', '4', '5'];
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
-    const expectedCurrentValue = [];
-    expect(actualValueReturned.currentOverScore)
-      .toEqual(expectedCurrentValue);
-  });
+  // it('should this over be refreshed when the last ball is valid', () => {
+  //   const localState = { ...initialState };
+  //   localState.team1.totalBalls = 5;
+  //   localState.currentOverScore = ['0', '2', '3', '4', '5'];
+  //   const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
+  //   const expectedCurrentValue = [];
+  //   expect(actualValueReturned.currentOverScore)
+  //     .toEqual(expectedCurrentValue);
+  // });
 });
 
 describe('Batsman Change/reducer', () => {
-  function testStrikerChanged(runsScored, testStrikerIsChanged) {
-    const localState = { ...initialState };
-
-    const currentStrikerId = localState.team1.players.filter(player =>
+  function testStrikerChanged(originalState, updatedState, testStrikerIsChanged) {
+    const currentStrikerId = originalState.team1.players.filter(player =>
       player.status === PlayerStatus.STRIKER)[0].id;
 
-    const currentNonStrikerId = localState.team1.players.filter(player =>
+    const currentNonStrikerId = originalState.team1.players.filter(player =>
       player.status === PlayerStatus.NON_STRIKER)[0].id;
 
-    const updatedPlayers = reducer(localState, recordScore(runsScored, false)).team1.players;
-
+    const updatedPlayers = updatedState.team1.players;
 
     const newStrikerId = updatedPlayers.filter(player =>
       player.status === PlayerStatus.STRIKER)[0].id;
@@ -468,31 +465,62 @@ describe('Batsman Change/reducer', () => {
     }
   }
 
+  function takeRunWhenNotLastBall(runsScored, willStrikerChange) {
+    const localState = { ...initialState };
+    const updatedState = reducer(localState, recordScore(runsScored, false));
+
+    testStrikerChanged(localState, updatedState, willStrikerChange);
+  }
+
+  function takeRunOnLastBall(runsScored, willStrikerChange) {
+    const localState = {
+      ...initialState,
+      team1: {
+        ...initialState.team1,
+        totalBalls: 5,
+      },
+    };
+    const updatedState = reducer(localState, recordScore(runsScored, false));
+    testStrikerChanged(localState, updatedState, willStrikerChange);
+  }
+
   it('striker should change when 1 run is scored', () => {
-    testStrikerChanged(1, true);
+    takeRunWhenNotLastBall(1, true);
   });
 
   it('striker should change when 3 run is scored', () => {
-    testStrikerChanged(3, true);
+    takeRunWhenNotLastBall(3, true);
   });
 
   it('striker should change when 5 run is scored', () => {
-    testStrikerChanged(5, true);
+    takeRunWhenNotLastBall(5, true);
   });
 
   it('striker should not change when 0 run is scored', () => {
-    testStrikerChanged(0, false);
+    takeRunWhenNotLastBall(0, false);
   });
 
   it('striker should not change when 2 run is scored', () => {
-    testStrikerChanged(2, false);
+    takeRunWhenNotLastBall(2, false);
   });
 
   it('striker should not change when 4 run is scored', () => {
-    testStrikerChanged(4, false);
+    takeRunWhenNotLastBall(4, false);
   });
 
   it('striker should not change when 6 run is scored', () => {
-    testStrikerChanged(6, false);
+    takeRunWhenNotLastBall(6, false);
+  });
+
+  it('striker should change when last ball is bowled and no runs are taken', () => {
+    takeRunOnLastBall(0, true);
+  });
+
+  it('striker should not change when last ball is bowled and odd runs are taken', () => {
+    takeRunOnLastBall(1, false);
+  });
+
+  it('striker should change when last ball is bowled and even runs are taken', () => {
+    takeRunOnLastBall(2, true);
   });
 });
