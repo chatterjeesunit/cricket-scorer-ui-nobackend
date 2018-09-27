@@ -46,15 +46,9 @@ function updateBalls(extras) {
 }
 
 function updateCurrentRunsWithExtras(currentRun, extras) {
-  let extraBalls = 0;
   let total = 0;
   switch (extras) {
     case ExtraTypes.NO_BALL:
-    {
-      extraBalls = 1;
-      total = extraBalls + currentRun;
-      break;
-    }
     case undefined:
     {
       total = currentRun;
@@ -150,7 +144,9 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras, 
     updateBowlingPlayerScore(players, currentRun, (!isBattingTeam && isBatsmanOut), extras);
 
   const isOddRuns = [1, 3, 5].indexOf(currentRun) !== -1;
-  const isLastBallOfOver = (totalBalls + 1) % 6 === 0;
+  const isLastBallOfOver = (totalBalls + 1) % 6 === 0 &&
+    extras !== ExtraTypes.WIDE &&
+    extras !== ExtraTypes.NO_BALL;
 
   if (isBatsmanOut && isBattingTeam) {
     const selectedPlayerId = updatedPlayersList.filter(player =>
@@ -158,8 +154,7 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras, 
     updatedPlayersList = updatePlayerStatus(updatedPlayersList, selectedPlayerId, PlayerStatus.OUT);
   } else if (
     isBattingTeam &&
-    (
-      (isOddRuns && !isLastBallOfOver)
+    ((isOddRuns && !isLastBallOfOver)
       || (!isOddRuns && isLastBallOfOver)
     )
   ) {
