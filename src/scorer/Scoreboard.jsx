@@ -84,7 +84,7 @@ const getCurrentBatsman = (props) => {
           <Col md={{ size: 8, offset: 2 }} sm="12">
             <Row>
               <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-                <b>Bowler Name:</b>
+                <b>Bowler:</b>
               </Col>
               <Col md={{ size: 6 }} sm={{ size: 6 }} className="scoreBoard">
                 {displayCurrentBowlerName(props.bowlingTeam)}
