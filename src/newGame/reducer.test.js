@@ -407,6 +407,37 @@ describe('Batsman Out/reducer', () => {
     expect(reducer(localState, recordScore(0, false, ExtraTypes.BIES))
       .team2.players[0].runsGiven).toEqual(2);
   });
+
+
+  it('should this over not be refresh when the last ball is wide', () => {
+    const localState = { ...initialState };
+    localState.team1.totalBalls = 5;
+    localState.currentOverScore = ['0', '2', '3', '4', '5'];
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
+    const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Wd'];
+    expect(actualValueReturned.currentOverScore)
+      .toEqual(expectedCurrentValue);
+  });
+
+  it('should this over not be refreshed when the last ball is No ball', () => {
+    const localState = { ...initialState };
+    localState.team1.totalBalls = 5;
+    localState.currentOverScore = ['0', '2', '3', '4', '5'];
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
+    const expectedCurrentValue = ['0', '2', '3', '4', '5', '2Nb'];
+    expect(actualValueReturned.currentOverScore)
+      .toEqual(expectedCurrentValue);
+  });
+
+  it('should this over be refreshed when the last ball is valid', () => {
+    const localState = { ...initialState };
+    localState.team1.totalBalls = 5;
+    localState.currentOverScore = ['0', '2', '3', '4', '5'];
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
+    const expectedCurrentValue = [];
+    expect(actualValueReturned.currentOverScore)
+      .toEqual(expectedCurrentValue);
+  });
 });
 
 describe('Batsman Change/reducer', () => {
