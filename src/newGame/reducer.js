@@ -66,9 +66,10 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RECORD_SCORE': {
       const isTeam1Batting = state.team1.isBatting;
+      const totalWickets = isTeam1Batting ? state.team1.totalWickets : state.team2.totalWickets;
 
       const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
-        && action.isCurrentBatsmanOut;
+        && action.isCurrentBatsmanOut && totalWickets < 9;
 
       return {
         ...state,

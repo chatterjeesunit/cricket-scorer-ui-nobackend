@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { PlayerStatus } from '../newGame/gameConstants';
@@ -56,84 +56,80 @@ const displayStriker = (battingTeam) => {
   return currentBatsman;
 };
 
-class ScoreBoard extends Component {
-  render() {
-    return (
-      <Container>
-        <br />
+const ScoreBoard = props => (
+  <Container>
+    <br />
+    <Row>
+      <Col md={{ size: 8, offset: 2 }}>
         <Row>
-          <Col md={{ size: 8, offset: 2 }}>
-            <Row>
-              <Col md="5" xs="4">
-                <b className="currentBattingTeam">{this.props.battingTeam.name}</b>
-              </Col>
-              <Col style={{ textAlign: 'right' }}>
-                <b className="currentBattingTeam">{`${this.props.battingTeam.totalRun}/${this.props.battingTeam.totalWickets}  in  ${totalOversPassed(this.props.battingTeam.totalBalls)}/${this.props.maxOvers}`}</b>
-              </Col>
-            </Row>
+          <Col md="5" xs="4">
+            <b className="currentBattingTeam">{props.battingTeam.name}</b>
+          </Col>
+          <Col style={{ textAlign: 'right' }}>
+            <b className="currentBattingTeam">{`${props.battingTeam.totalRun}/${props.battingTeam.totalWickets}  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>
           </Col>
         </Row>
+      </Col>
+    </Row>
 
+    <Row>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
-            <Row>
-              <Col className="scoreBoard">
-                {isBowlingTeamAlreadyPlayed(this.props.bowlingTeam)}
-              </Col>
-            </Row>
+          <Col className="scoreBoard">
+            {isBowlingTeamAlreadyPlayed(props.bowlingTeam)}
           </Col>
         </Row>
-        <br />
+      </Col>
+    </Row>
+    <br />
+    <Row>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
-            <Row>
-              <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-                This Over
-              </Col>
-              <Col md={{ size: 4 }} sm={{ size: 6 }}>
-                {displayCurrentOverScore(this.props.currentOverScore)}
-              </Col>
-            </Row>
+          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
+            <b>This Over</b>
+          </Col>
+          <Col md={{ size: 6 }} sm={{ size: 6 }}>
+            {displayCurrentOverScore(props.currentOverScore)}
           </Col>
         </Row>
+      </Col>
+    </Row>
+    <Row>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
-            <Row>
-              <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-                Bowler Name:
-              </Col>
-              <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-                {displayCurrentBowlerName(this.props.bowlingTeam)}
-              </Col>
-            </Row>
+          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
+            <b>Bowler Name:</b>
+          </Col>
+          <Col md={{ size: 6 }} sm={{ size: 6 }} className="scoreBoard">
+            {displayCurrentBowlerName(props.bowlingTeam)}
           </Col>
         </Row>
-        <br />
+      </Col>
+    </Row>
+    <br />
 
-        <Row>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
-            This ball
-          </Col>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
-            <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
-              <div className={displayStriker(this.props.battingTeam).player1Class}>
-                {displayStriker(this.props.battingTeam).player1}
-              </div>
-            </Col>
-            <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
-              <div className={displayStriker(this.props.battingTeam).player2Class}>
-                {displayStriker(this.props.battingTeam).player2}
-              </div>
-            </Col>
-          </Col>
-        </Row>
+    <Row>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
+        <b>This ball</b>
         <br />
-        <br />
-      </Container>
-    );
-  }
-}
-
+      </Col>
+      <Col md={{ size: 8, offset: 2 }} sm="12">
+        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+          <div className={displayStriker(props.battingTeam).player1Class}>
+            {displayStriker(props.battingTeam).player1}
+          </div>
+        </Col>
+        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+          <div className={displayStriker(props.battingTeam).player2Class}>
+            {displayStriker(props.battingTeam).player2}
+          </div>
+        </Col>
+      </Col>
+    </Row>
+    <br />
+    <br />
+  </Container>
+);
 
 const mapStateToProps = (state) => {
   let battingTeam;
