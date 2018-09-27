@@ -105,6 +105,7 @@ const reducer = (state = initialState, action) => {
           getCurrentOverScore(
             state.currentOverScore, createCurrentBallSummary(action),
             isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
+            action.extras,
           ),
       };
     }
