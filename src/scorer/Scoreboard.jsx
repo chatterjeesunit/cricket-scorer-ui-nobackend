@@ -43,16 +43,16 @@ const displayStriker = (battingTeam) => {
   const currentBatsman = {
     player1: '', player2: '', player1Class: '', player2Class: '',
   };
-  for (let idx = 0; idx < battingTeam.players.length; idx += 1) {
-    if (battingTeam.players[idx].status === PlayerStatus.STRIKER) {
-      currentBatsman.player1 = battingTeam.players[idx].name;
-      currentBatsman.player1Class = 'badge badge-dark';
-    }
-    if (battingTeam.players[idx].status === PlayerStatus.NON_STRIKER) {
-      currentBatsman.player2 = battingTeam.players[idx].name;
-      currentBatsman.player2Class = 'badge badge-light';
-    }
-  }
+
+  const batsmen = battingTeam.players.filter(player =>
+    player.status === PlayerStatus.STRIKER || player.status === PlayerStatus.NON_STRIKER);
+
+  currentBatsman.player1 = batsmen[0].name;
+  currentBatsman.player2 = batsmen[1].name;
+
+  currentBatsman.player1Class = batsmen[0].status === PlayerStatus.STRIKER ? 'badge badge-dark' : 'badge badge-light';
+  currentBatsman.player2Class = batsmen[1].status === PlayerStatus.STRIKER ? 'badge badge-dark' : 'badge badge-light';
+
   return currentBatsman;
 };
 
