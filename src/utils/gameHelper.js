@@ -171,9 +171,11 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras) 
 }
 
 
-function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {
+function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls, extraType) {
   if ((battingTeamTotalBalls + 1) % 6 === 0) {
-    return [];
+    if (extraType !== ExtraTypes.WIDE && extraType !== ExtraTypes.NO_BALL) {
+      return [];
+    }
   }
 
   return [...currentOverArray].concat([currentRun]);

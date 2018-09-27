@@ -11,6 +11,7 @@ const ExtraTypes = {
   NO_BALL: 'NO_BALL',
   BIES: 'BIES',
   LB: 'LB',
+  NONE: 'NONE',
 };
 
 export { PlayerStatus, ExtraTypes };

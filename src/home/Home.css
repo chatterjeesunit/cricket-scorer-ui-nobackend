@@ -85,3 +85,7 @@ html, body {
     color: #fff;
     background-color: #17a2b8;
 }
+
+.float-right {
+   float: right;
+}
