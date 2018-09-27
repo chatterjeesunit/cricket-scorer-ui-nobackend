@@ -527,4 +527,18 @@ describe('Batsman Change/reducer', () => {
   it('striker should change when last ball is bowled and even runs are taken', () => {
     takeRunOnLastBall(2, true);
   });
+
+  it('striker should not change when last ball is an extra ball and even runs are taken', () => {
+    const localState = cloneInitialState();
+    localState.team1.totalBalls = 5;
+    const updatedState = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
+    testStrikerChanged(localState, updatedState, false);
+  });
+
+  it('striker should change when last ball is an extra ball and odd runs are taken', () => {
+    const localState = cloneInitialState();
+    localState.team1.totalBalls = 5;
+    const updatedState = reducer(localState, recordScore(1, false, ExtraTypes.WIDE));
+    testStrikerChanged(localState, updatedState, true);
+  });
 });
