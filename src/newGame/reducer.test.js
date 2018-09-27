@@ -352,3 +352,60 @@ describe('Batsman Out/reducer', () => {
       .team2.players[0].runsGiven).toEqual(2);
   });
 });
+
+describe('Batsman Change/reducer', () => {
+  function testStrikerChanged(runsScored, testStrikerIsChanged) {
+    const localState = { ...initialState };
+
+    const currentStrikerId = localState.team1.players.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0].id;
+
+    const currentNonStrikerId = localState.team1.players.filter(player =>
+      player.status === PlayerStatus.NON_STRIKER)[0].id;
+
+    const updatedPlayers = reducer(localState, recordScore(runsScored, false)).team1.players;
+
+
+    const newStrikerId = updatedPlayers.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0].id;
+
+    const newNonStrikerId = updatedPlayers.filter(player =>
+      player.status === PlayerStatus.NON_STRIKER)[0].id;
+
+    if (testStrikerIsChanged) {
+      expect(newStrikerId).toEqual(currentNonStrikerId);
+      expect(newNonStrikerId).toEqual(currentStrikerId);
+    } else {
+      expect(newStrikerId).toEqual(currentStrikerId);
+      expect(newNonStrikerId).toEqual(currentNonStrikerId);
+    }
+  }
+
+  it('striker should change when 1 run is scored', () => {
+    testStrikerChanged(1, true);
+  });
+
+  it('striker should change when 3 run is scored', () => {
+    testStrikerChanged(3, true);
+  });
+
+  it('striker should change when 5 run is scored', () => {
+    testStrikerChanged(5, true);
+  });
+
+  it('striker should not change when 0 run is scored', () => {
+    testStrikerChanged(0, false);
+  });
+
+  it('striker should not change when 2 run is scored', () => {
+    testStrikerChanged(2, false);
+  });
+
+  it('striker should not change when 4 run is scored', () => {
+    testStrikerChanged(4, false);
+  });
+
+  it('striker should not change when 6 run is scored', () => {
+    testStrikerChanged(6, false);
+  });
+});

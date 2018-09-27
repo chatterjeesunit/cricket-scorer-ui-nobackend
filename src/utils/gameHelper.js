@@ -145,14 +145,26 @@ function updateBowlingPlayerScore(players, currentRun, isBatsmanOut, extras) {
 }
 
 function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras) {
-  const updatedPlayersList = isBattingTeam ?
+  let updatedPlayersList = isBattingTeam ?
     updateBattingPlayerScore(players, currentRun, extras) :
     updateBowlingPlayerScore(players, currentRun, (!isBattingTeam && isBatsmanOut), extras);
 
   if (isBatsmanOut && isBattingTeam) {
     const selectedPlayerId = updatedPlayersList.filter(player =>
       player.status === PlayerStatus.STRIKER)[0].id;
-    return updatePlayerStatus(updatedPlayersList, selectedPlayerId, PlayerStatus.OUT);
+    updatedPlayersList = updatePlayerStatus(updatedPlayersList, selectedPlayerId, PlayerStatus.OUT);
+  } else if (isBattingTeam && [1, 3, 5].indexOf(currentRun) !== -1) {
+    const currentStrikerId = players.filter(player =>
+      player.status === PlayerStatus.STRIKER)[0].id;
+
+    const currentNonStrikerId = players.filter(player =>
+      player.status === PlayerStatus.NON_STRIKER)[0].id;
+
+    updatedPlayersList =
+     updatePlayerStatus(updatedPlayersList, currentStrikerId, PlayerStatus.NON_STRIKER);
+
+    updatedPlayersList =
+      updatePlayerStatus(updatedPlayersList, currentNonStrikerId, PlayerStatus.STRIKER);
   }
 
   return updatedPlayersList;
