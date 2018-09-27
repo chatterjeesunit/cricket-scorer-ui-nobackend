@@ -33,6 +33,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint src",
     "test_with_coverage": "CI=true react-scripts test --env=jsdom --coverage",
-    "ci": "yarn run lint && yarn run test_with_coverage"
+    "ci": "yarn run lint && yarn run test_with_coverage && yarn run build"
   }
 }
