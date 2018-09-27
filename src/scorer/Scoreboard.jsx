@@ -56,6 +56,68 @@ const displayStriker = (battingTeam) => {
   return currentBatsman;
 };
 
+const getSecondTeamStats = (props) => {
+  if (props.pageName == 'gameDetails') {
+    return <b className="currentBattingTeam">{`${props.battingTeam.totalRun}/${props.battingTeam.totalWickets}  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>;
+  } else if (props.pageName == 'scorer') {
+    return isBowlingTeamAlreadyPlayed(props.bowlingTeam);
+  }
+}
+
+const getCurrentBatsman = (props) => {
+  if (props.pageName === 'scorer') {
+    return (
+      <div>
+        <Row>
+          <Col md={{ size: 8, offset: 2 }} sm="12">
+            <Row>
+              <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
+                <b>This Over</b>
+              </Col>
+              <Col md={{ size: 6 }} sm={{ size: 6 }}>
+                {displayCurrentOverScore(props.currentOverScore)}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ size: 8, offset: 2 }} sm="12">
+            <Row>
+              <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
+                <b>Bowler Name:</b>
+              </Col>
+              <Col md={{ size: 6 }} sm={{ size: 6 }} className="scoreBoard">
+                {displayCurrentBowlerName(props.bowlingTeam)}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col md={{ size: 8, offset: 2 }} sm="12">
+            <b>This ball</b>
+            <br />
+          </Col>
+          <Col md={{ size: 8, offset: 2 }} sm="12">
+            <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+              <div className={displayStriker(props.battingTeam).player1Class}>
+                {displayStriker(props.battingTeam).player1}
+              </div>
+            </Col>
+            <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
+              <div className={displayStriker(props.battingTeam).player2Class}>
+                {displayStriker(props.battingTeam).player2}
+              </div>
+            </Col>
+          </Col>
+        </Row>
+        <br />
+      </div>
+    );
+  }
+  return '';
+}
+
 const ScoreBoard = props => (
   <Container>
     <br />
@@ -76,56 +138,13 @@ const ScoreBoard = props => (
       <Col md={{ size: 8, offset: 2 }} sm="12">
         <Row>
           <Col className="scoreBoard">
-            {isBowlingTeamAlreadyPlayed(props.bowlingTeam)}
+            {getSecondTeamStats(props)}
           </Col>
         </Row>
       </Col>
     </Row>
     <br />
-    <Row>
-      <Col md={{ size: 8, offset: 2 }} sm="12">
-        <Row>
-          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-            <b>This Over</b>
-          </Col>
-          <Col md={{ size: 6 }} sm={{ size: 6 }}>
-            {displayCurrentOverScore(props.currentOverScore)}
-          </Col>
-        </Row>
-      </Col>
-    </Row>
-    <Row>
-      <Col md={{ size: 8, offset: 2 }} sm="12">
-        <Row>
-          <Col md={{ size: 4 }} sm={{ size: 6 }} className="scoreBoard">
-            <b>Bowler Name:</b>
-          </Col>
-          <Col md={{ size: 6 }} sm={{ size: 6 }} className="scoreBoard">
-            {displayCurrentBowlerName(props.bowlingTeam)}
-          </Col>
-        </Row>
-      </Col>
-    </Row>
-    <br />
-
-    <Row>
-      <Col md={{ size: 8, offset: 2 }} sm="12">
-        <b>This ball</b>
-        <br />
-      </Col>
-      <Col md={{ size: 8, offset: 2 }} sm="12">
-        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
-          <div className={displayStriker(props.battingTeam).player1Class}>
-            {displayStriker(props.battingTeam).player1}
-          </div>
-        </Col>
-        <Col md={{ size: 6 }} sm="12" className="badge-wrapper">
-          <div className={displayStriker(props.battingTeam).player2Class}>
-            {displayStriker(props.battingTeam).player2}
-          </div>
-        </Col>
-      </Col>
-    </Row>
+    {getCurrentBatsman(props)}
     <br />
     <br />
   </Container>
