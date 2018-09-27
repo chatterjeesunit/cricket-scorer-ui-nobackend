@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
-import { ExtraTypes, PlayerStatus } from '../newGame/gameConstants';
+import { PlayerStatus } from '../newGame/gameConstants';
 
 const calculateStrikeRate = (runsScored, ballsFaced) => {
   if (ballsFaced === 0) {
@@ -11,9 +11,10 @@ const calculateStrikeRate = (runsScored, ballsFaced) => {
 };
 
 const createTable = (battingTeam) => {
-
-  let striker = battingTeam.players.filter(player => player.status === PlayerStatus.STRIKER)[0];
-  let nonStriker = battingTeam.players.filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
+  const striker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.STRIKER)[0];
+  const nonStriker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
   return (
     <tbody>
       <tr>
@@ -34,7 +35,8 @@ const createTable = (battingTeam) => {
       </tr>
       {
         battingTeam.players.filter(player => player.status === PlayerStatus.OUT)
-          .map((player) =>
+          .map(player =>
+          (
             <tr>
               <td>{player.name}</td>
               <td>{player.runsScored}</td>
@@ -43,7 +45,7 @@ const createTable = (battingTeam) => {
               <td>{player.numberOfSixes}</td>
               <td>{calculateStrikeRate(player.runsScored, player.ballsFaced)}</td>
             </tr>
-          )
+          ))
       }
     </tbody>
   );
@@ -53,7 +55,6 @@ class BattingStats extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
     return (
       <div class="container">
@@ -70,12 +71,7 @@ class BattingStats extends Component {
             </tr>
           </thead>
           {createTable(this.props.battingTeam)}
-
-
-        </table>
-
-
-        
+        </table> 
       </div>
     );
   }
