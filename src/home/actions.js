@@ -23,5 +23,7 @@ const selectNewBowlerAction = {
   type: 'SELECT_NEW_BOWLER',
 };
 
-export { CREATE_GAME, createGameAction,
-  recordScore, selectNewBatsmanAction, selectNewBowlerAction };
+export {
+  CREATE_GAME, createGameAction,
+  recordScore, selectNewBatsmanAction, selectNewBowlerAction,
+};
