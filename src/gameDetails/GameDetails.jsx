@@ -6,7 +6,7 @@ import Heading from '../home/Heading';
 
 const GameDetails = props => (
   <div className="center">
-    <Heading />
+    <Heading pageName="gameDetails" />
     <ScoreBoard pageName="gameDetails" />
     <BattingStats />
     <BowlingStats />

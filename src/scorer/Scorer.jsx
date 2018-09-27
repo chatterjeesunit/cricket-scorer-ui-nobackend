@@ -5,7 +5,7 @@ import Heading from '../home/Heading';
 
 const Scorer = () => (
   <div className="center">
-    <Heading />
+    <Heading pageName="scorer" />
     <ScoreBoard pageName="scorer" />
     <RunRecorder />
   </div>

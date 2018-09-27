@@ -6,18 +6,18 @@ import { totalOversPassed } from '../utils/gameHelper';
 const createTable = bowlingTeam => (
   <tbody>
     {
-            bowlingTeam.players.filter(player => player.ballsBowled > 0)
-                .map(player =>
-                    (
-                      <tr>
-                        <td>{player.name}</td>
-                        <td>{totalOversPassed(player.ballsBowled)}</td>
-                        <td>{player.numberOfMaidens}</td>
-                        <td>{player.runsGiven}</td>
-                        <td>{player.wicketsTaken}</td>
-                      </tr>
-                    ))
-        }
+      bowlingTeam.players.filter(player => player.ballsBowled > 0)
+        .map(player =>
+          (
+            <tr>
+              <td>{player.name}</td>
+              <td>{totalOversPassed(player.ballsBowled)}</td>
+              <td>{player.numberOfMaidens}</td>
+              <td>{player.runsGiven}</td>
+              <td>{player.wicketsTaken}</td>
+            </tr>
+          ))
+    }
   </tbody>
 );
 
@@ -26,11 +26,6 @@ const BowlingStats = props => (
     <div className="row">
       <div className="col-md-10 offset-1">
         <h5> Bowling Table</h5>
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-md-10 offset-1">
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr className="info">

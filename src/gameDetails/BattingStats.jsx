@@ -10,13 +10,9 @@ const calculateStrikeRate = (runsScored, ballsFaced) => {
   return (100 * (runsScored / ballsFaced)).toFixed(2);
 };
 
-const createTable = (battingTeam) => {
-  const striker = battingTeam.players
-    .filter(player => player.status === PlayerStatus.STRIKER)[0];
-  const nonStriker = battingTeam.players
-    .filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
-  return (
-    <tbody>
+const getStrikerStats = (striker) => {
+  if (striker !== undefined) {
+    return (
       <tr>
         <td><b>{striker.name}*</b></td>
         <td>{striker.runsScored}</td>
@@ -25,6 +21,20 @@ const createTable = (battingTeam) => {
         <td>{striker.numberOfSixes}</td>
         <td>{calculateStrikeRate(striker.runsScored, striker.ballsFaced)}</td>
       </tr>
+    );
+  }
+  return '';
+};
+
+const createTable = (battingTeam) => {
+  const striker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.STRIKER)[0];
+  const nonStriker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
+
+  return (
+    <tbody>
+      {getStrikerStats(striker)}
       <tr>
         <td><b>{nonStriker.name}</b></td>
         <td>{nonStriker.runsScored}</td>
@@ -56,11 +66,6 @@ const BattingStats = props => (
     <div className="row">
       <div className="col-md-10 offset-1">
         <h5>Batting Table</h5>
-      </div>
-    </div>
-
-    <div className="row">
-      <div className="col-md-10 offset-1">
         <table className="table table-striped">
           <thead className="thead-dark">
             <tr className="info">

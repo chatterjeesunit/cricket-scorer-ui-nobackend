@@ -63,7 +63,8 @@ const getSecondTeamStats = (props) => {
   } else if (props.pageName === 'scorer') {
     return isBowlingTeamAlreadyPlayed(props.bowlingTeam);
   }
-}
+  return '';
+};
 
 const getCurrentBatsman = (props) => {
   if (props.pageName === 'scorer') {
@@ -117,7 +118,7 @@ const getCurrentBatsman = (props) => {
     );
   }
   return '';
-}
+};
 
 const ScoreBoard = props => (
   <Container>
