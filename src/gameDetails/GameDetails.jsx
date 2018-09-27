@@ -16,7 +16,7 @@ const GameDetails = (props) => (
           </div>
         </div>
       </div>
-      <ScoreBoard />
+      <ScoreBoard pageName="gameDetails"/>
       <BattingStats />
     </Container>
   </div>

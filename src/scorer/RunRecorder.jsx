@@ -94,7 +94,7 @@ class RunRecorder extends Component {
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
-            <Button className = "button float-right" size="lg" color="info" href={"#/gameDetails"}>Game Details</Button>
+            <Button className = "button float-right" size="lg" color="info" href={ "#" + Routes.GAME_DETAILS}>Game Details</Button>
           </div>
         </div>
       </div>

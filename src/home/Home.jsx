@@ -4,9 +4,8 @@ import Container from 'reactstrap/lib/Container';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import './Home.css';
-import { createGameAction } from "./actions";
+import { createGameAction } from './actions';
 import { connect } from 'react-redux';
-import BattingStats from '../gameDetails/BattingStats';
 
 const Home = (props) =>
   <Container className="h-100">
