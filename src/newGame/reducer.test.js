@@ -1,7 +1,12 @@
+import { cloneDeep } from 'lodash';
 import reducer from './reducer';
 import { PlayerStatus, ExtraTypes } from './gameConstants';
 import initialState from './defaultData';
 import { CREATE_GAME, recordScore, selectNewBatsmanAction } from '../home/actions';
+
+function cloneInitialState() {
+  return cloneDeep(initialState);
+}
 
 describe('gameInformation/reducer', () => {
   it('should return initial state of 11 players in each team', () => {
@@ -23,10 +28,11 @@ describe('newBatsmanSelection/reducer', () => {
   it('selected player in batting team should become the Striker', () => {
     const selectedPlayer = '3';
 
-    const newTeam1 = { ...initialState.team2 };
-    const newTeam2 = { ...initialState.team1 };
+    const localState = cloneInitialState();
+    const newTeam1 = { ...localState.team2 };
+    const newTeam2 = { ...localState.team1 };
     const newState = {
-      ...initialState,
+      ...localState,
       team1: newTeam1,
       team2: newTeam2,
     };
@@ -61,20 +67,15 @@ describe('newBatsmanSelection/reducer', () => {
   });
 
   it('new batsman modal should be open when batsman gets out', () => {
-    const localState = { ...initialState };
     expect(reducer(
-      localState,
+      cloneInitialState(),
       recordScore(undefined, true),
     ).appState.isNewBatsmanModalOpen).toEqual(true);
   });
 
   it('new batsman modal should be close when new batsman is selected', () => {
-    const localState = {
-      ...initialState,
-      appState: {
-        isNewBatsmanModalOpen: true,
-      },
-    };
+    const localState = cloneInitialState();
+    localState.appState.isNewBatsmanModalOpen = true;
 
     selectNewBatsmanAction.batsmanId = '3';
     expect(reducer(
@@ -84,13 +85,8 @@ describe('newBatsmanSelection/reducer', () => {
   });
 
   it('new batsman modal should not open when the last batsman gets out', () => {
-    const localState = {
-      ...initialState,
-      team1: {
-        ...initialState.team1,
-        totalWickets: 9,
-      },
-    };
+    const localState = cloneInitialState();
+    localState.team1.totalWickets = 9;
 
     expect(reducer(
       localState,
@@ -105,80 +101,79 @@ describe('record score/reducer', () => {
   });
 
   it('test total score updated for the batting team', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(4)).team1.totalRun).toEqual(4);
+    expect(reducer(cloneInitialState(), recordScore(4)).team1.totalRun).toEqual(4);
   });
 
   it('test total score not updated for the bowling team', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(4)).team2.totalRun).toEqual(initialState.team2.totalRun);
+    expect(reducer(
+      cloneInitialState(),
+      recordScore(4),
+    ).team2.totalRun).toEqual(initialState.team2.totalRun);
   });
 
   it('test the current score of the batsman', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(2)).team1.players[0].runsScored).toEqual(2);
+    expect(reducer(cloneInitialState(), recordScore(2)).team1.players[0].runsScored).toEqual(2);
   });
 
   it('test the current ball faced by current player', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(2)).team1.players[0].ballsFaced).toEqual(1);
+    expect(reducer(cloneInitialState(), recordScore(2)).team1.players[0].ballsFaced).toEqual(1);
   });
 
   it('test the current player 4s updated', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(4)).team1.players[0].numberOfFours).toEqual(1);
+    expect(reducer(cloneInitialState(), recordScore(4)).team1.players[0].numberOfFours).toEqual(1);
   });
 
   it('test the current player 6s updated', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(6)).team1.players[0].numberOfSixes).toEqual(1);
+    expect(reducer(cloneInitialState(), recordScore(6)).team1.players[0].numberOfSixes).toEqual(1);
   });
 
   it('current bowler run given', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(4)).team2.players[0].runsGiven).toEqual(4);
+    expect(reducer(cloneInitialState(), recordScore(4)).team2.players[0].runsGiven).toEqual(4);
   });
 
   it('Current bowler ball bowled', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(2)).team2.players[0].ballsBowled).toEqual(1);
+    expect(reducer(cloneInitialState(), recordScore(2)).team2.players[0].ballsBowled).toEqual(1);
   });
 
   it('Current over score of first ball', () => {
-    const localState = { ...initialState };
-    expect(reducer(localState, recordScore(2)).currentOverScore[0]).toEqual(2);
+    expect(reducer(cloneInitialState(), recordScore(2)).currentOverScore[0]).toEqual(2);
   });
 });
 
 describe('Batsman Out/reducer', () => {
   it('should update the wicket for team1 only when team1 is batting', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
 
-    expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
+    const actualReturnedValue = reducer(localState, recordScore(0, true));
+
+    expect(actualReturnedValue.team1.totalWickets)
       .toEqual(initialState.team1.totalWickets + 1);
 
-    expect(reducer(localState, recordScore(0, true)).team2.totalWickets)
+    expect(actualReturnedValue.team2.totalWickets)
       .toEqual(initialState.team2.totalWickets);
   });
 
   it('should update the wicket for team2 only when team2 is batting', () => {
-    const newTeam1 = { ...initialState.team2 };
-    const newTeam2 = { ...initialState.team1 };
-    const localState = {
-      ...initialState,
+    const localState = cloneInitialState();
+    const newTeam1 = { ...localState.team2 };
+    const newTeam2 = { ...localState.team1 };
+    const newState = {
+      ...localState,
       team1: newTeam1,
       team2: newTeam2,
     };
 
-    expect(reducer(localState, recordScore(0, true)).team1.totalWickets)
+    const actualReturnedValue = reducer(newState, recordScore(0, true));
+
+    expect(actualReturnedValue.team1.totalWickets)
       .toEqual(newTeam1.totalWickets);
 
-    expect(reducer(localState, recordScore(0, true)).team2.totalWickets)
+    expect(actualReturnedValue.team2.totalWickets)
       .toEqual(newTeam2.totalWickets + 1);
   });
 
   it('should change the current batsman status to OUT when team1 is batting', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
 
     const currentBatsman = localState.team1.players.filter(player =>
       player.status === PlayerStatus.STRIKER)[0];
@@ -191,7 +186,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('should update the wickets for bowler in bowling team', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
 
     const currentBowler = localState.team2.players.filter(player =>
       player.status === PlayerStatus.BOWLING)[0];
@@ -203,77 +198,91 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('should update the wicket in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(0, true));
+    const actualValueReturned = reducer(cloneInitialState(), recordScore(0, true));
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('W');
   });
 
   it('should update the wicket and runs in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(2, true));
+    const actualValueReturned = reducer(cloneInitialState(), recordScore(2, true));
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('2W');
   });
 
   it('should update the Wide in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.WIDE));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(0, false, ExtraTypes.WIDE),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('Wd');
   });
 
   it('should update the Wide and runs in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(2, false, ExtraTypes.WIDE),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('2Wd');
   });
 
   it('should update the No Ball in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.NO_BALL));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(0, false, ExtraTypes.NO_BALL),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('Nb');
   });
 
   it('should update the No ball and runs in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(2, false, ExtraTypes.NO_BALL),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('2Nb');
   });
 
   it('should update the Bies in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.BIES));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(0, false, ExtraTypes.BIES),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('B');
   });
 
   it('should update the Bies and runs in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.BIES));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(2, false, ExtraTypes.BIES),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('2B');
   });
 
   it('should update the Leg Bies in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.LB));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(0, false, ExtraTypes.LB),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('Lb');
   });
 
   it('should update the Leg Bies and runs in current over details', () => {
-    const localState = { ...initialState };
-    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
+    const actualValueReturned = reducer(
+      cloneInitialState(),
+      recordScore(2, false, ExtraTypes.LB),
+    );
     expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
       .toEqual('2Lb');
   });
 
   it('should update the batsman score even if he took run and got out', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     const actualValueReturned = reducer(localState, recordScore(2, true));
 
     const currentBatsman = localState.team1.players.filter(player =>
@@ -284,7 +293,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('Current ball is wide with no run', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalRun).toEqual(1);
     expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE)).team1.totalBalls).toEqual(0);
     expect(reducer(localState, recordScore(0, false, ExtraTypes.WIDE))
@@ -302,7 +311,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('Current ball is wide with totalRun as 2', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalRun = 2;
     localState.team1.totalBalls = 2;
     localState.team1.players[0].runsScored = 2;
@@ -327,7 +336,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('Current ball is No Ball with totalRun as 2', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalRun = 2;
     localState.team1.totalBalls = 2;
     localState.team1.players[0].runsScored = 2;
@@ -355,7 +364,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('Current ball is LB with totalRun as 2', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalRun = 2;
     localState.team1.totalBalls = 2;
     localState.team1.players[0].runsScored = 2;
@@ -383,7 +392,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('Current ball is Byes with totalRun as 2', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalRun = 2;
     localState.team1.totalBalls = 2;
     localState.team1.players[0].runsScored = 2;
@@ -410,7 +419,7 @@ describe('Batsman Out/reducer', () => {
 
 
   it('should this over not be refresh when the last ball is wide', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalBalls = 5;
     localState.currentOverScore = ['0', '2', '3', '4', '5'];
     const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
@@ -420,7 +429,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('should this over not be refreshed when the last ball is No ball', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalBalls = 5;
     localState.currentOverScore = ['0', '2', '3', '4', '5'];
     const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
@@ -430,7 +439,7 @@ describe('Batsman Out/reducer', () => {
   });
 
   it('should this over be refreshed when the last ball is valid', () => {
-    const localState = { ...initialState };
+    const localState = cloneInitialState();
     localState.team1.totalBalls = 5;
     localState.currentOverScore = ['0', '2', '3', '4', '5'];
     const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
@@ -441,17 +450,14 @@ describe('Batsman Out/reducer', () => {
 });
 
 describe('Batsman Change/reducer', () => {
-  function testStrikerChanged(runsScored, testStrikerIsChanged) {
-    const localState = { ...initialState };
-
-    const currentStrikerId = localState.team1.players.filter(player =>
+  function testStrikerChanged(originalState, updatedState, testStrikerIsChanged) {
+    const currentStrikerId = originalState.team1.players.filter(player =>
       player.status === PlayerStatus.STRIKER)[0].id;
 
-    const currentNonStrikerId = localState.team1.players.filter(player =>
+    const currentNonStrikerId = originalState.team1.players.filter(player =>
       player.status === PlayerStatus.NON_STRIKER)[0].id;
 
-    const updatedPlayers = reducer(localState, recordScore(runsScored, false)).team1.players;
-
+    const updatedPlayers = updatedState.team1.players;
 
     const newStrikerId = updatedPlayers.filter(player =>
       player.status === PlayerStatus.STRIKER)[0].id;
@@ -468,31 +474,57 @@ describe('Batsman Change/reducer', () => {
     }
   }
 
+  function takeRunWhenNotLastBall(runsScored, willStrikerChange) {
+    const localState = cloneInitialState();
+    const updatedState = reducer(cloneInitialState(), recordScore(runsScored, false));
+
+    testStrikerChanged(localState, updatedState, willStrikerChange);
+  }
+
+  function takeRunOnLastBall(runsScored, willStrikerChange) {
+    const localState = cloneInitialState();
+    localState.team1.totalBalls = 5;
+    const updatedState = reducer(localState, recordScore(runsScored, false));
+    testStrikerChanged(localState, updatedState, willStrikerChange);
+  }
+
   it('striker should change when 1 run is scored', () => {
-    testStrikerChanged(1, true);
+    takeRunWhenNotLastBall(1, true);
   });
 
   it('striker should change when 3 run is scored', () => {
-    testStrikerChanged(3, true);
+    takeRunWhenNotLastBall(3, true);
   });
 
   it('striker should change when 5 run is scored', () => {
-    testStrikerChanged(5, true);
+    takeRunWhenNotLastBall(5, true);
   });
 
   it('striker should not change when 0 run is scored', () => {
-    testStrikerChanged(0, false);
+    takeRunWhenNotLastBall(0, false);
   });
 
   it('striker should not change when 2 run is scored', () => {
-    testStrikerChanged(2, false);
+    takeRunWhenNotLastBall(2, false);
   });
 
   it('striker should not change when 4 run is scored', () => {
-    testStrikerChanged(4, false);
+    takeRunWhenNotLastBall(4, false);
   });
 
   it('striker should not change when 6 run is scored', () => {
-    testStrikerChanged(6, false);
+    takeRunWhenNotLastBall(6, false);
+  });
+
+  it('striker should change when last ball is bowled and no runs are taken', () => {
+    takeRunOnLastBall(0, true);
+  });
+
+  it('striker should not change when last ball is bowled and odd runs are taken', () => {
+    takeRunOnLastBall(1, false);
+  });
+
+  it('striker should change when last ball is bowled and even runs are taken', () => {
+    takeRunOnLastBall(2, true);
   });
 });

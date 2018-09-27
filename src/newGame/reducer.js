@@ -87,6 +87,7 @@ const reducer = (state = initialState, action) => {
             isTeam1Batting, state.team1.players,
             action.currentRun, action.isCurrentBatsmanOut,
             action.extras,
+            isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
           ),
         },
         team2: {
@@ -99,6 +100,7 @@ const reducer = (state = initialState, action) => {
             (!isTeam1Batting), state.team2.players,
             action.currentRun, action.isCurrentBatsmanOut,
             action.extras,
+            isTeam1Batting ? state.team2.totalBalls : state.team1.totalBalls,
           ),
         },
         currentOverScore:
@@ -119,13 +121,21 @@ const reducer = (state = initialState, action) => {
         team1: {
           ...state.team1,
           players: state.team1.isBatting ?
-            updatePlayerStatus(state.team1.players, action.batsmanId, PlayerStatus.STRIKER) :
+            updatePlayerStatus(
+              state.team1.players,
+              action.batsmanId, PlayerStatus.STRIKER, state.team1.totalBalls,
+            ) :
             state.team1.players,
         },
         team2: {
           ...state.team2,
           players: state.team2.isBatting ?
-            updatePlayerStatus(state.team2.players, action.batsmanId, PlayerStatus.STRIKER) :
+            updatePlayerStatus(
+              state.team2.players,
+              action.batsmanId,
+              PlayerStatus.STRIKER,
+              state.team2.totalBalls,
+            ) :
             state.team2.players,
         },
       };
