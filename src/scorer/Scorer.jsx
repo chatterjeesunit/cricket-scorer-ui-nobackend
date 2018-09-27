@@ -4,7 +4,7 @@ import RunRecorder from './RunRecorder';
 
 const Scorer = () => (
   <div className="center">
-    <ScoreBoard pageName="scorer"/>
+    <ScoreBoard pageName="scorer" />
     <RunRecorder />
 
   </div>

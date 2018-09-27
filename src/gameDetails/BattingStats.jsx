@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
-import { ExtraTypes, PlayerStatus } from '../newGame/gameConstants';
+import { PlayerStatus } from '../newGame/gameConstants';
 
 const calculateStrikeRate = (runsScored, ballsFaced) => {
   if (ballsFaced === 0) {
@@ -11,9 +11,10 @@ const calculateStrikeRate = (runsScored, ballsFaced) => {
 };
 
 const createTable = (battingTeam) => {
-
-  let striker = battingTeam.players.filter(player => player.status === PlayerStatus.STRIKER)[0];
-  let nonStriker = battingTeam.players.filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
+  const striker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.STRIKER)[0];
+  const nonStriker = battingTeam.players
+    .filter(player => player.status === PlayerStatus.NON_STRIKER)[0];
   return (
     <tbody>
       <tr>
@@ -34,33 +35,35 @@ const createTable = (battingTeam) => {
       </tr>
       {
         battingTeam.players.filter(player => player.status === PlayerStatus.OUT)
-          .map((player) =>
-            <tr>
-              <td>{player.name}</td>
-              <td>{player.runsScored}</td>
-              <td>{player.ballsFaced}</td>
-              <td>{player.numberOfFours}</td>
-              <td>{player.numberOfSixes}</td>
-              <td>{calculateStrikeRate(player.runsScored, player.ballsFaced)}</td>
-            </tr>
-          )
+          .map(player =>
+            (
+              <tr>
+                <td>{player.name}</td>
+                <td>{player.runsScored}</td>
+                <td>{player.ballsFaced}</td>
+                <td>{player.numberOfFours}</td>
+                <td>{player.numberOfSixes}</td>
+                <td>{calculateStrikeRate(player.runsScored, player.ballsFaced)}</td>
+              </tr>
+            ))
       }
     </tbody>
   );
 };
 
-class BattingStats extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div class="container">
+const BattingStats = props => (
+  <div className="container">
+    <div className="row">
+      <div className="col-md-10 offset-1">
         <h5>Batting Table</h5>
-        <table class="table table-striped">
-          <thead class = "thead-dark"> 
-            <tr class="info">
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-md-10 offset-1">
+        <table className="table table-striped">
+          <thead className="thead-dark">
+            <tr className="info">
               <th>Batsman</th>
               <th>Runs</th>
               <th>Balls</th>
@@ -69,17 +72,12 @@ class BattingStats extends Component {
               <th>StrikeRate</th>
             </tr>
           </thead>
-          {createTable(this.props.battingTeam)}
-
-
+          {createTable(props.battingTeam)}
         </table>
-
-
-        
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
 
 const mapStateToProps = (state) => {
   let battingTeam;
