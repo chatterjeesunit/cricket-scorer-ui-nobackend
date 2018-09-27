@@ -57,9 +57,18 @@ const displayStriker = (battingTeam) => {
 };
 
 const getSecondTeamStats = (props) => {
-  if (props.pageName == 'gameDetails') {
-    return <b className="currentBattingTeam">{`${props.battingTeam.totalRun}/${props.battingTeam.totalWickets}  in  ${totalOversPassed(props.battingTeam.totalBalls)}/${props.maxOvers}`}</b>;
-  } else if (props.pageName == 'scorer') {
+  if (props.pageName === 'gameDetails') {
+    return (
+      <Row>
+        <Col md="5" xs="4">
+          <p className="currentBattingTeam">{props.bowlingTeam.name}</p>
+        </Col>
+        <Col style={{ textAlign: 'right' }}>
+          <p className="currentBattingTeam">{`${props.bowlingTeam.totalRun}/${props.bowlingTeam.totalWickets} in  
+    ${totalOversPassed(props.bowlingTeam.totalBalls)}/${props.maxOvers}`}</p>
+        </Col>
+      </Row>);
+  } else if (props.pageName === 'scorer') {
     return isBowlingTeamAlreadyPlayed(props.bowlingTeam);
   }
 }
