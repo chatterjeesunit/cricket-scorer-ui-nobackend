@@ -181,6 +181,16 @@ function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls
   return [...currentOverArray].concat([currentRun]);
 }
 
+function totalOversPassed(totalBalls) {
+  let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
+  const ballsPlayedForCurrentOver = totalBalls % 6;
+
+  if (ballsPlayedForCurrentOver !== 0) {
+    totalOvers = `${totalOvers}.${ballsPlayedForCurrentOver}`;
+  }
+  return totalOvers;
+}
+
 export {
   updatePlayerStatus,
   updateBattingPlayerScore,
@@ -189,4 +199,5 @@ export {
   updateBalls,
   updatePlayer,
   getCurrentOverScore,
+  totalOversPassed,
 };

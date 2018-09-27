@@ -3,6 +3,7 @@ import { Button, Container } from 'reactstrap';
 import { Routes } from '../routes/routes';
 import ScoreBoard from '../scorer/Scoreboard';
 import BattingStats from './BattingStats';
+import BowlingStats from './BowlingStats';
 
 const GameDetails = (props) => (
   <div className="center">
@@ -18,6 +19,7 @@ const GameDetails = (props) => (
       </div>
       <ScoreBoard pageName="gameDetails"/>
       <BattingStats />
+      <BowlingStats />
     </Container>
   </div>
 

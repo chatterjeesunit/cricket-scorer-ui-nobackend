@@ -2,16 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { PlayerStatus } from '../newGame/gameConstants';
-
-const totalOversPassed = (totalBalls) => {
-  let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
-  const ballsPlayedForCurrentOver = totalBalls % 6;
-
-  if (ballsPlayedForCurrentOver !== 0) {
-    totalOvers = `${totalOvers}.${ballsPlayedForCurrentOver}`;
-  }
-  return totalOvers;
-};
+import { totalOversPassed } from '../utils/gameHelper';
 
 const isBowlingTeamAlreadyPlayed = (bowlingTeam) => {
   if (bowlingTeam.totalBalls > 0) {
