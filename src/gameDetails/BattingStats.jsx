@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import { PlayerStatus } from '../newGame/gameConstants';
@@ -36,32 +36,34 @@ const createTable = (battingTeam) => {
       {
         battingTeam.players.filter(player => player.status === PlayerStatus.OUT)
           .map(player =>
-          (
-            <tr>
-              <td>{player.name}</td>
-              <td>{player.runsScored}</td>
-              <td>{player.ballsFaced}</td>
-              <td>{player.numberOfFours}</td>
-              <td>{player.numberOfSixes}</td>
-              <td>{calculateStrikeRate(player.runsScored, player.ballsFaced)}</td>
-            </tr>
-          ))
+            (
+              <tr>
+                <td>{player.name}</td>
+                <td>{player.runsScored}</td>
+                <td>{player.ballsFaced}</td>
+                <td>{player.numberOfFours}</td>
+                <td>{player.numberOfSixes}</td>
+                <td>{calculateStrikeRate(player.runsScored, player.ballsFaced)}</td>
+              </tr>
+            ))
       }
     </tbody>
   );
 };
 
-class BattingStats extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div class="container">
+const BattingStats = props => (
+  <div className="container">
+    <div className="row">
+      <div className="col-md-10 offset-1">
         <h5>Batting Table</h5>
-        <table class="table table-striped">
-          <thead class = "thead-dark"> 
-            <tr class="info">
+      </div>
+    </div>
+
+    <div className="row">
+      <div className="col-md-10 offset-1">
+        <table className="table table-striped">
+          <thead className="thead-dark">
+            <tr className="info">
               <th>Batsman</th>
               <th>Runs</th>
               <th>Balls</th>
@@ -70,12 +72,12 @@ class BattingStats extends Component {
               <th>StrikeRate</th>
             </tr>
           </thead>
-          {createTable(this.props.battingTeam)}
-        </table> 
+          {createTable(props.battingTeam)}
+        </table>
       </div>
-    );
-  }
-}
+    </div>
+  </div>
+);
 
 const mapStateToProps = (state) => {
   let battingTeam;
