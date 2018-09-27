@@ -46,15 +46,9 @@ function updateBalls(extras) {
 }
 
 function updateCurrentRunsWithExtras(currentRun, extras) {
-  let extraBalls = 0;
   let total = 0;
   switch (extras) {
     case ExtraTypes.NO_BALL:
-    {
-      extraBalls = 1;
-      total = extraBalls + currentRun;
-      break;
-    }
     case undefined:
     {
       total = currentRun;

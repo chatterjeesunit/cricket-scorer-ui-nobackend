@@ -350,7 +350,7 @@ describe('Batsman Out/reducer', () => {
     expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
       .team1.totalBalls).toEqual(2);
     expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
-      .team1.players[0].runsScored).toEqual(4);
+      .team1.players[0].runsScored).toEqual(3);
     expect(reducer(localState, recordScore(1, false, ExtraTypes.NO_BALL))
       .team1.players[0].ballsFaced).toEqual(2);
     expect(reducer(localState, recordScore(6, false, ExtraTypes.NO_BALL))
