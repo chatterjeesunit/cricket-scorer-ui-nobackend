@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import { Routes } from '../routes/routes';
-import { Container, Row, Col } from 'reactstrap';
 import ScoreBoard from '../scorer/Scoreboard';
 import BattingStats from './BattingStats';
 
