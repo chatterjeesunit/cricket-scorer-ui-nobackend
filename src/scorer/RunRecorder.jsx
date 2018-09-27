@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
-import { Button, Modal} from 'reactstrap';
+import { Button, Modal } from 'reactstrap';
 import { recordScore } from './../home/actions';
 import NewBatsman from '../newPlayer/NewBatsman';
 import { ExtraTypes } from '../newGame/gameConstants';
-import { Routes} from '../routes/routes' ;
 
 class RunRecorder extends Component {
   constructor(props) {
@@ -94,7 +93,6 @@ class RunRecorder extends Component {
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
-            <Button className = "button float-right" size="lg" color="info" href={ "#" + Routes.GAME_DETAILS}>Game Details</Button>
           </div>
         </div>
       </div>
