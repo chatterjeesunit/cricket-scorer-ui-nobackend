@@ -84,7 +84,9 @@ class RunRecorder extends Component {
         <br />
         <div className="row">
           <div className="col-md-8 offset-2">
-            <Button className="button" size="lg" color="info"  onClick={() => this.onSubmit()}>Next Ball</Button>
+            <Button className="button" size="lg" disabled={this.props.battingTeamWickets === 10} color="info" onClick={() => this.onSubmit()}>
+              Next Ball
+            </Button>
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
@@ -97,11 +99,14 @@ class RunRecorder extends Component {
 
 const mapStateToProps = state => ({
   isNewBatsmanModalOpen: state.gameInformation.appState.isNewBatsmanModalOpen,
+  battingTeamWickets: state.gameInformation.team1.isBatting ?
+    state.gameInformation.team1.totalWickets :
+    state.gameInformation.team1.totalWickets,
 });
 
 const mapDispatchAsProps = dispatch => ({
   recordScore: localState =>
-    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut,localState.extras)),
+    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut, localState.extras)),
 });
 
 export default connect(mapStateToProps, mapDispatchAsProps)(RunRecorder);
