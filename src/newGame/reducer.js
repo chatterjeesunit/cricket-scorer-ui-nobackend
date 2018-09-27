@@ -1,10 +1,65 @@
 import initialState from './defaultData';
 import { selectNewBatsmanAction } from '../home/actions';
-import { PlayerStatus } from './gameConstants';
 import { updatePlayerStatus, updateRuns, updateBalls, updatePlayer, getCurrentOverScore } from '../utils/gameHelper';
+import { PlayerStatus, ExtraTypes } from './gameConstants';
 
 function getTotalRuns(team, isTeamBatting, action) {
   return team.totalRun + (isTeamBatting ? action.currentRun + updateRuns(action.extras) : 0);
+}
+
+function getBallSummaryForExtras(action) {
+  const EXTRAS_BIES = 'B';
+  const EXTRAS_LB = 'Lb';
+  const EXTRA_NO_BALL = 'Nb';
+  const EXTRA_WIDE = 'Wd';
+  let currentBallUpdateStr;
+  switch (action.extras) {
+    case ExtraTypes.BIES:
+    {
+      currentBallUpdateStr = EXTRAS_BIES;
+      break;
+    }
+    case ExtraTypes.LB:
+    {
+      currentBallUpdateStr = EXTRAS_LB;
+      break;
+    }
+    case ExtraTypes.NO_BALL:
+    {
+      currentBallUpdateStr = EXTRA_NO_BALL;
+      break;
+    }
+    case ExtraTypes.WIDE:
+    {
+      currentBallUpdateStr = EXTRA_WIDE;
+      break;
+    }
+    default:
+    {
+      currentBallUpdateStr = action.currentRun;
+      break;
+    }
+  }
+  return currentBallUpdateStr;
+}
+
+function createCurrentBallSummary(action) {
+  let currentBallUpdateStr;
+  const WICKET = 'W';
+
+  if (action.isCurrentBatsmanOut) {
+    currentBallUpdateStr = WICKET;
+  } else {
+    currentBallUpdateStr = getBallSummaryForExtras(action);
+  }
+
+  if (action.currentRun !== 0) {
+    if ((action.extras !== undefined) || (action.isCurrentBatsmanOut)) {
+      currentBallUpdateStr = `${action.currentRun}${currentBallUpdateStr}`;
+    }
+  }
+
+  return currentBallUpdateStr;
 }
 
 const reducer = (state = initialState, action) => {
@@ -14,11 +69,6 @@ const reducer = (state = initialState, action) => {
 
       const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
         && action.isCurrentBatsmanOut;
-
-      let currentBallUpdateStr = action.currentRun;
-      if (action.isCurrentBatsmanOut) {
-        currentBallUpdateStr = action.currentRun === 0 ? 'W' : (`${action.currentRun}W`);
-      }
 
       return {
         ...state,
@@ -52,7 +102,7 @@ const reducer = (state = initialState, action) => {
         },
         currentOverScore:
           getCurrentOverScore(
-            state.currentOverScore, currentBallUpdateStr,
+            state.currentOverScore, createCurrentBallSummary(action),
             isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
           ),
       };

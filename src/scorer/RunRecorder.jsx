@@ -28,8 +28,12 @@ class RunRecorder extends Component {
   }
 
   saveExtra(currenSelectdExtra) {
+    let selectedExtra = currenSelectdExtra;
+    if (this.state.extras === currenSelectdExtra) {
+      selectedExtra = undefined;
+    }
     this.setState({
-      extras : currenSelectdExtra
+      extras: selectedExtra,
     });
   }
 
@@ -56,17 +60,16 @@ class RunRecorder extends Component {
           </div>
         </div>
         <br />
-        {/* <div className="row">
-          <div className="col-md-6 offset-3">
-           Extras
-            <button className="btn btn-outline-info button" id="W" type="button" onClick={() => this.saveExtra(ExtraTypes.WIDE)}>W</button>
-            <button className="btn btn-outline-info button" id="N" type="button" onClick={() => this.saveExtra(ExtraTypes.NO_BALL)}>N</button>
-            <button className="btn btn-outline-info button" id="L" type="button" onClick={() => this.saveExtra(ExtraTypes.BIES)}>L</button>
-            <button className="btn btn-outline-info button" id="B" type="button" onClick={() => this.saveExtra(ExtraTypes.LB)}>Lb</button>
+        <div className="row">
+          <div className="col-md-12 offset-2 ">
+            Extras :&nbsp;&nbsp;
+            <Button className="button" size="lg" outline color="info" id="W" active={this.state.extras === ExtraTypes.WIDE} onClick={() => this.saveExtra(ExtraTypes.WIDE)}>W</Button>
+            <Button className="button" size="lg" outline color="info" id="N" active={this.state.extras === ExtraTypes.NO_BALL} type="button" onClick={() => this.saveExtra(ExtraTypes.NO_BALL)}>N</Button>
+            <Button className="button" size="lg" outline color="info" id="L" active={this.state.extras === ExtraTypes.BIES} type="button" onClick={() => this.saveExtra(ExtraTypes.BIES)}>B</Button>
+            <Button className="button" size="lg" outline color="info" id="B" active={this.state.extras === ExtraTypes.LB} type="button" onClick={() => this.saveExtra(ExtraTypes.LB)}>Lb</Button>
           </div>
         </div>
-
-        <br /> */}
+        <br />
 
         <div className="row">
           <div className="col-md-8 offset-2">
@@ -84,7 +87,7 @@ class RunRecorder extends Component {
         <br />
         <div className="row">
           <div className="col-md-8 offset-2">
-            <Button className="button" size="lg" color="info"  onClick={() => this.onSubmit()}>Next Ball</Button>
+            <Button className="button" size="lg" color="info" onClick={() => this.onSubmit()}>Next Ball</Button>
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
@@ -101,7 +104,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchAsProps = dispatch => ({
   recordScore: localState =>
-    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut,localState.extras)),
+    dispatch(recordScore(localState.run, localState.isCurrentBatsmanOut, localState.extras)),
 });
 
 export default connect(mapStateToProps, mapDispatchAsProps)(RunRecorder);

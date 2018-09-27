@@ -201,6 +201,62 @@ describe('Batsman Out/reducer', () => {
       .toEqual('2W');
   });
 
+  it('should update the Wide in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.WIDE));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('Wd');
+  });
+
+  it('should update the Wide and runs in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.WIDE));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('2Wd');
+  });
+
+  it('should update the No Ball in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.NO_BALL));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('Nb');
+  });
+
+  it('should update the No ball and runs in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.NO_BALL));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('2Nb');
+  });
+
+  it('should update the Bies in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.BIES));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('B');
+  });
+
+  it('should update the Bies and runs in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.BIES));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('2B');
+  });
+
+  it('should update the Leg Bies in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(0, false, ExtraTypes.LB));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('Lb');
+  });
+
+  it('should update the Leg Bies and runs in current over details', () => {
+    const localState = { ...initialState };
+    const actualValueReturned = reducer(localState, recordScore(2, false, ExtraTypes.LB));
+    expect(actualValueReturned.currentOverScore[actualValueReturned.currentOverScore.length - 1])
+      .toEqual('2Lb');
+  });
+
   it('should update the batsman score even if he took run and got out', () => {
     const localState = { ...initialState };
     const actualValueReturned = reducer(localState, recordScore(2, true));
@@ -311,7 +367,7 @@ describe('Batsman Out/reducer', () => {
       .team2.players[0].runsGiven).toEqual(2);
   });
 
-  it('Current ball is Bies with totalRun as 2', () => {
+  it('Current ball is Byes with totalRun as 2', () => {
     const localState = { ...initialState };
     localState.team1.totalRun = 2;
     localState.team1.totalBalls = 2;
