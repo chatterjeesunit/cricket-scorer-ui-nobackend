@@ -48,11 +48,12 @@ const displayStriker = (battingTeam) => {
     player.status === PlayerStatus.STRIKER || player.status === PlayerStatus.NON_STRIKER);
 
   currentBatsman.player1 = batsmen[0].name;
-  currentBatsman.player2 = batsmen[1].name;
-
   currentBatsman.player1Class = batsmen[0].status === PlayerStatus.STRIKER ? 'badge badge-dark' : 'badge badge-light';
-  currentBatsman.player2Class = batsmen[1].status === PlayerStatus.STRIKER ? 'badge badge-dark' : 'badge badge-light';
 
+  if (batsmen.length > 1) {
+    currentBatsman.player2 = batsmen[1].name;
+    currentBatsman.player2Class = batsmen[1].status === PlayerStatus.STRIKER ? 'badge badge-dark' : 'badge badge-light';
+  }
   return currentBatsman;
 };
 
