@@ -96,9 +96,8 @@ const getCurrentBatsman = (props) => {
         </Row>
         <br />
         <Row>
-          <Col md={{ size: 8, offset: 2 }} sm="12">
+          <Col md={{ size: 8, offset: 2 }} sm="12" className="label-margin-bottom">
             <b>This ball</b>
-            <br />
           </Col>
           <Col md={{ size: 8, offset: 2 }} sm="12">
             <Col md={{ size: 6 }} sm="12" className="badge-wrapper">

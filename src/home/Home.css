@@ -117,3 +117,7 @@ table.table-striped > tbody > tr > td{
     border: 1px solid #17a2b8;
     border-radius: 2px;
 }
+
+.label-margin-bottom{
+    margin-bottom: 5px;
+}
