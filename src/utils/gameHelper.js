@@ -162,8 +162,20 @@ function updateBowlingPlayerScore(players, currentRun, isBatsmanOut, extras) {
     return newPlayer;
   });
 }
+function updateBowlerMaidens(players, playerId, numberOfMaidens) {
+  return [...players].map((player) => {
+    const newPlayer = { ...player };
+    if (newPlayer.id === playerId.id) {
+      newPlayer.numberOfMaidens = numberOfMaidens;
+    }
+    return newPlayer;
+  });
+}
 
-function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras, totalBalls) {
+function updatePlayer(
+  isBattingTeam, players, currentRun,
+  isBatsmanOut, extras, totalBalls, currentOverRuns, isOverComplete,
+) {
   let updatedPlayersList = isBattingTeam ?
     updateBattingPlayerScore(players, currentRun, extras) :
     updateBowlingPlayerScore(players, currentRun, (!isBattingTeam && isBatsmanOut), extras);
@@ -197,8 +209,30 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras, 
   }
 
   if (!isBattingTeam) {
-    const currentBowler = players.filter(player => player.status === PlayerStatus.BOWLING);
-    return updatePlayerStatus(updatedPlayersList, currentBowler, PlayerStatus.YET_TO_PLAY);
+    let isMaiden = true;
+    const currentBowler = players.filter(player => player.status === PlayerStatus.BOWLING)[0];
+    let tempCurrentOverRuns = [];
+    tempCurrentOverRuns = tempCurrentOverRuns.concat(currentOverRuns);
+    tempCurrentOverRuns.push(currentRun);
+    if (isOverComplete) {
+      for (let i = 0; i < tempCurrentOverRuns.length; i += 1) {
+        if (tempCurrentOverRuns[i] === 'Wb' || tempCurrentOverRuns[i] === 'Nb' || tempCurrentOverRuns[i] === '2Wb'
+        || tempCurrentOverRuns[i] === '3Wb' || tempCurrentOverRuns[i] === '4Wb' || tempCurrentOverRuns[i] === '5Wb'
+        || tempCurrentOverRuns[i] === '6Wb' || tempCurrentOverRuns[i] === '2Nb' || tempCurrentOverRuns[i] === '3Nb'
+         || tempCurrentOverRuns[i] === '4Nb' || tempCurrentOverRuns[i] === '5Nb'
+        || tempCurrentOverRuns[i] === '6Nb') {
+          isMaiden = false;
+          break;
+        } else if (tempCurrentOverRuns[i] !== 0) {
+          isMaiden = false;
+          break;
+        }
+      }
+      if (isMaiden) {
+        currentBowler.numberOfMaidens += 1;
+      }
+    }
+    return updateBowlerMaidens(updatedPlayersList, currentBowler, currentBowler.numberOfMaidens);
   }
   return updatedPlayersList;
 }

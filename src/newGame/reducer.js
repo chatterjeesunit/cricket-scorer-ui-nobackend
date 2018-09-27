@@ -95,6 +95,7 @@ const reducer = (state = initialState, action) => {
             action.currentRun, action.isCurrentBatsmanOut,
             action.extras,
             isTeam1Batting ? state.team1.totalBalls : state.team2.totalBalls,
+            state.currentOverScore, isNewBowlerSelectionModalOpen,
           ),
         },
         team2: {
@@ -108,6 +109,7 @@ const reducer = (state = initialState, action) => {
             action.currentRun, action.isCurrentBatsmanOut,
             action.extras,
             isTeam1Batting ? state.team2.totalBalls : state.team1.totalBalls,
+            state.currentOverScore, isNewBowlerSelectionModalOpen,
           ),
         },
         currentOverScore:
