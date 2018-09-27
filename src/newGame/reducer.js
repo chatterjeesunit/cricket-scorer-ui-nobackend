@@ -1,6 +1,6 @@
 import initialState from './defaultData';
-import { selectNewBatsmanAction } from '../home/actions';
-import { updatePlayerStatus, updateRuns, updateBalls, updatePlayer, getCurrentOverScore } from '../utils/gameHelper';
+import { selectNewBatsmanAction, selectNewBowlerAction } from '../home/actions';
+import { updatePlayerStatus, updateRuns, updateBalls, updatePlayer, getCurrentOverScore, updateBowlerStatus } from '../utils/gameHelper';
 import { PlayerStatus, ExtraTypes } from './gameConstants';
 
 function getTotalRuns(team, isTeamBatting, action) {
@@ -71,11 +71,18 @@ const reducer = (state = initialState, action) => {
       const isNewBatsModalOpen = !state.appState.isNewBatsmanModalOpen
         && action.isCurrentBatsmanOut && totalWickets < 9;
 
+      const battingTeam = isTeam1Batting ? state.team1 : state.team2;
+      const isNewBowlerSelectionModalOpen = (!state.appState.isNewBowlerModalOpen) &&
+      (battingTeam.totalBalls !== 0) && ((battingTeam.totalBalls + 1) % 6 === 0)
+      && action.extras !== ExtraTypes.WIDE &&
+      action.extras !== ExtraTypes.NO_BALL;
+
       return {
         ...state,
         appState: {
           ...state.appState,
           isNewBatsmanModalOpen: isNewBatsModalOpen,
+          isNewBowlerModalOpen: isNewBowlerSelectionModalOpen,
         },
         team1: {
           ...state.team1,
@@ -140,6 +147,35 @@ const reducer = (state = initialState, action) => {
         },
       };
 
+      return obj;
+    }
+
+    case selectNewBowlerAction.type: {
+      const obj = {
+        ...state,
+        appState: {
+          ...state.appState,
+          isNewBowlerModalOpen: false,
+        },
+        team1: {
+          ...state.team1,
+          players: !state.team1.isBatting ?
+            updateBowlerStatus(
+              state.currentOverScore, state.team1.players,
+              action.previousBowlerId, action.bowlerId,
+            ) :
+            state.team1.players,
+        },
+        team2: {
+          ...state.team2,
+          players: !state.team2.isBatting ?
+            updateBowlerStatus(
+              state.currentOverScore, state.team2.players,
+              action.previousBowlerId, action.bowlerId,
+            ) :
+            state.team2.players,
+        },
+      };
       return obj;
     }
 

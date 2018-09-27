@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 import reducer from './reducer';
 import { PlayerStatus, ExtraTypes } from './gameConstants';
 import initialState from './defaultData';
-import { CREATE_GAME, recordScore, selectNewBatsmanAction } from '../home/actions';
+import { CREATE_GAME, recordScore, selectNewBatsmanAction, selectNewBowlerAction } from '../home/actions';
 
 function cloneInitialState() {
   return cloneDeep(initialState);
@@ -540,5 +540,30 @@ describe('Batsman Change/reducer', () => {
     localState.team1.totalBalls = 5;
     const updatedState = reducer(localState, recordScore(1, false, ExtraTypes.WIDE));
     testStrikerChanged(localState, updatedState, true);
+  });
+});
+
+
+describe('over complete/reducer', () => {
+  it('Bowler selection model is open on over complete', () => {
+    const localState = { ...initialState };
+    localState.team1.isBatting = true;
+    localState.team1.totalBalls = 5;
+    localState.team2.isBatting = false;
+    expect(reducer(localState, recordScore(2)).appState.isNewBowlerModalOpen).toEqual(true);
+  });
+
+  it('Previous bowler status is updated after over is delivered', () => {
+    const localState = { ...initialState };
+    localState.team1.isBatting = true;
+    localState.team2.isBatting = false;
+    localState.team1.totalBalls = 5;
+    localState.team2.players[0].PlayerStatus = PlayerStatus.BOWLING;
+    localState.team2.players[1].PlayerStatus = PlayerStatus.YET_TO_PLAY;
+    selectNewBowlerAction.previousBowlerId = localState.team2.players[0].id;
+    selectNewBowlerAction.bowlerId = localState.team2.players[1].id;
+    reducer(localState, selectNewBatsmanAction);
+    expect(localState.team2.players[0].PlayerStatus)
+      .toEqual(PlayerStatus.BOWLING);
   });
 });

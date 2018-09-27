@@ -19,4 +19,9 @@ const recordScore = (run, isOut, extra) => ({
   extras: extra,
 });
 
-export { CREATE_GAME, createGameAction, recordScore, selectNewBatsmanAction };
+const selectNewBowlerAction = {
+  type: 'SELECT_NEW_BOWLER',
+};
+
+export { CREATE_GAME, createGameAction,
+  recordScore, selectNewBatsmanAction, selectNewBowlerAction };

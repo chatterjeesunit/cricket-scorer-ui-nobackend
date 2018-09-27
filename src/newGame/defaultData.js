@@ -3,6 +3,7 @@ import { PlayerStatus } from './gameConstants';
 const initialState = {
   appState: {
     isNewBatsmanModalOpen: false,
+    isNewBowlerModalOpen: false,
   },
   maxOvers: 20,
   currentOverScore: [],

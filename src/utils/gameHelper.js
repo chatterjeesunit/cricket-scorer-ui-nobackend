@@ -10,6 +10,31 @@ function updatePlayerStatus(players, playerId, newStatus) {
   });
 }
 
+function updateBowlerStatus(currentOverRuns, players, previousBowlerId, currentBowlerId) {
+  // let isMaiden = true;
+  return [...players].map((player) => {
+    const newPlayer = { ...player };
+    if (newPlayer.id === currentBowlerId) {
+      newPlayer.status = PlayerStatus.BOWLING;
+    }
+
+    if (newPlayer.id === previousBowlerId) {
+      newPlayer.status = PlayerStatus.YET_TO_PLAY;
+      // // console.log("current overs runs"+ currentOverRuns[5]);
+      // for (let i = 0; i < currentOverRuns.length; i += 1) {
+      //   if (currentOverRuns[i] !== 0) {
+      //     isMaiden = false;
+      //     break;
+      //   }
+      // }
+      // if (isMaiden) {
+      //   newPlayer.numberOfMaidens += 1;
+      // }
+    }
+    return newPlayer;
+  });
+}
+
 function updateRuns(extras) {
   let runsScored;
   switch (extras) {
@@ -171,6 +196,10 @@ function updatePlayer(isBattingTeam, players, currentRun, isBatsmanOut, extras, 
       updatePlayerStatus(updatedPlayersList, currentNonStrikerId, PlayerStatus.STRIKER);
   }
 
+  if (!isBattingTeam) {
+    const currentBowler = players.filter(player => player.status === PlayerStatus.BOWLING);
+    return updatePlayerStatus(updatedPlayersList, currentBowler, PlayerStatus.YET_TO_PLAY);
+  }
   return updatedPlayersList;
 }
 
@@ -180,9 +209,14 @@ function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls
       return [];
     }
   }
-
   return [...currentOverArray].concat([currentRun]);
 }
+
+// function getCurrentOverScore(currentOverArray, currentRun, battingTeamTotalBalls) {
+//   // if ((battingTeamTotalBalls + 1) % 6 === 0) {
+//   //   return [];
+//   // }
+// }
 
 function totalOversPassed(totalBalls) {
   let totalOvers = `${parseInt((totalBalls / 6), 10)}`;
@@ -203,4 +237,5 @@ export {
   updatePlayer,
   getCurrentOverScore,
   totalOversPassed,
+  updateBowlerStatus,
 };

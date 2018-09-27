@@ -5,6 +5,7 @@ import { Button, Modal } from 'reactstrap';
 import { recordScore } from './../home/actions';
 import NewBatsman from '../newPlayer/NewBatsman';
 import { ExtraTypes } from '../newGame/gameConstants';
+import NewBowler from '../newPlayer/NewBowler';
 
 class RunRecorder extends Component {
   constructor(props) {
@@ -93,6 +94,9 @@ class RunRecorder extends Component {
             <Modal isOpen={this.props.isNewBatsmanModalOpen}>
               <NewBatsman />
             </Modal>
+            <Modal isOpen={this.props.isNewBowlerModalOpen}>
+              <NewBowler />
+            </Modal>
           </div>
         </div>
       </div>
@@ -105,6 +109,8 @@ const mapStateToProps = state => ({
   battingTeamWickets: state.gameInformation.team1.isBatting ?
     state.gameInformation.team1.totalWickets :
     state.gameInformation.team1.totalWickets,
+  isNewBowlerModalOpen: state.gameInformation.appState.isNewBowlerModalOpen,
+  totalBalls: state.gameInformation.team1.totalBalls,
 });
 
 const mapDispatchAsProps = dispatch => ({
