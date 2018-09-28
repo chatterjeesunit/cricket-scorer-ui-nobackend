@@ -13,7 +13,7 @@ const Home = props =>
     <Container className="h-100">
       <Row className="align-items-center h-100">
         <Col className="text-center">
-          <Button color="primary" onClick={props.createGame}>Create Game</Button>
+          <Button color="primary" onClick={props.createGame}>Start Game</Button>
         </Col>
       </Row>
     </Container>

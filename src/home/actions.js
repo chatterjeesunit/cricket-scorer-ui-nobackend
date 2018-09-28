@@ -5,7 +5,7 @@ const CREATE_GAME = 'CREATE_GAME';
 
 const createGameAction = () => (dispatch) => {
   dispatch({ type: CREATE_GAME });
-  history.push(Routes.NEW_GAME);
+  history.push(Routes.SCORER);
 };
 
 const selectNewBatsmanAction = {
