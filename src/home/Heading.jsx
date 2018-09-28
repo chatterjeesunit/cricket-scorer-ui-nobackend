@@ -20,7 +20,7 @@ const getClassName = (props, button) => {
 
 const Heading = props => (
   <Navbar color="dark" dark expand="md">
-    <NavbarBrand href="#">Cric Scorer</NavbarBrand>
+    <NavbarBrand href="#">Cr.III.C 5C0R3R</NavbarBrand>
     <Nav className="ml-auto" navbar>
       <NavItem>
         <NavLink className={getClassName(props, Routes.SCORER)} href={"#" + Routes.SCORER}>Scorer</NavLink>
