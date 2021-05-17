@@ -11,20 +11,12 @@
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^4.0.3",
     "reactstrap": "^6.1.0",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.9.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jest": "^21.17.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +27,17 @@
     "lint": "eslint src",
     "test_with_coverage": "CI=true react-scripts test --env=jsdom --coverage",
     "ci": "yarn run lint && yarn run test_with_coverage && yarn run build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
